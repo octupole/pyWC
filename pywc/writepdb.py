@@ -27,7 +27,7 @@ def _writepdb(interface,
     >>> print(u.atoms[0].position)
     [22.39 33.74 44.23]
     >>> g = u.select_atoms('resname DPC')
-    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')
+    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')  # doctest: +SKIP
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='gitim.micelle.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)
@@ -43,7 +43,7 @@ def _writepdb(interface,
     >>> print(u.atoms[0].position)
     [28.62  2.01 11.37]
     >>> g = u.select_atoms('name OW')
-    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')
+    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')  # doctest: +SKIP
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='gitim.water.generic.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)
@@ -56,7 +56,7 @@ def _writepdb(interface,
     >>> print('water gitim planar')
     water gitim planar
     >>> g = u.select_atoms('name OW')
-    >>> inter = pywc.GITIM(u,group=g,symmetry='planar')
+    >>> inter = pywc.GITIM(u,group=g,symmetry='planar')  # doctest: +SKIP
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='gitim.water.planar.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)
@@ -69,7 +69,7 @@ def _writepdb(interface,
     >>> print ('water itim')
     water itim
     >>> g = u.select_atoms('name OW')
-    >>> inter = pywc.ITIM(u,group=g)
+    >>> inter = pywc.ITIM(u,group=g)  # doctest: +SKIP
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='itim.water.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)

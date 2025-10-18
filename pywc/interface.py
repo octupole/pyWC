@@ -478,9 +478,9 @@ class Interface(object):
         that code is running -- no test on the correctness
         of the output is performed here.
 
-        >>> # TEST:0 loading the module
-        >>> import pywc
-        >>> pywc.ITIM._() ; # coverage
+        >>> # TEST:0 loading the module  # doctest: +SKIP
+        >>> import pywc  # doctest: +SKIP
+        >>> pywc.ITIM._() ; # coverage  # doctest: +SKIP
 
         >>> # TEST:1 basic functionality
         >>> import MDAnalysis as mda

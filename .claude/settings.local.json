@@ -18,7 +18,8 @@
       "Bash(/opt/miniforge3/envs/pywc-git/bin/pip install:*)",
       "Bash(git reset:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []

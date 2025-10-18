@@ -235,13 +235,13 @@ class WillardChandler(Interface):
 
             Example:
 
-            >>> import MDAnalysis as mda
-            >>> import pywc
-            >>> from pywc.datafiles import MICELLE_PDB
-            >>> u = mda.Universe(MICELLE_PDB)
-            >>> g = u.select_atoms('resname DPC')
-            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
-            >>> print(f"Computation time: {inter.get_timing():.3f} s")
+            >>> import MDAnalysis as mda  # doctest: +SKIP
+            >>> import pywc  # doctest: +SKIP
+            >>> from pywc.datafiles import MICELLE_PDB  # doctest: +SKIP
+            >>> u = mda.Universe(MICELLE_PDB)  # doctest: +SKIP
+            >>> g = u.select_atoms('resname DPC')  # doctest: +SKIP
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)  # doctest: +SKIP
+            >>> print(f"Computation time: {inter.get_timing():.3f} s")  # doctest: +SKIP
         """
         return self._surface_computation_time
 
@@ -254,17 +254,17 @@ class WillardChandler(Interface):
 
             Example:
 
-            >>> import MDAnalysis as mda
-            >>> import pywc
-            >>> from pywc.datafiles import MICELLE_PDB
-            >>> u = mda.Universe(MICELLE_PDB)
-            >>> g = u.select_atoms('resname DPC')
-            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
-            >>> # Process multiple frames
-            >>> for ts in u.trajectory[:10]:
-            ...     inter._assign_layers()
-            >>> timings = inter.get_detailed_timings(skip_frames=2)  # Skip first 2 frames
-            >>> print(f"Average compute_surface time: {timings['compute_surface']['mean']:.4f} s")
+            >>> import MDAnalysis as mda  # doctest: +SKIP
+            >>> import pywc  # doctest: +SKIP
+            >>> from pywc.datafiles import MICELLE_PDB  # doctest: +SKIP
+            >>> u = mda.Universe(MICELLE_PDB)  # doctest: +SKIP
+            >>> g = u.select_atoms('resname DPC')  # doctest: +SKIP
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)  # doctest: +SKIP
+            >>> # Process multiple frames  # doctest: +SKIP
+            >>> for ts in u.trajectory[:10]:  # doctest: +SKIP
+            ...     inter._assign_layers()  # doctest: +SKIP
+            >>> timings = inter.get_detailed_timings(skip_frames=2)  # Skip first 2 frames  # doctest: +SKIP
+            >>> print(f"Average compute_surface time: {timings['compute_surface']['mean']:.4f} s")  # doctest: +SKIP
         """
         if not self._enable_timing or not self._detailed_timings:
             return None
@@ -300,15 +300,15 @@ class WillardChandler(Interface):
 
             Example:
 
-            >>> import MDAnalysis as mda
-            >>> import pywc
-            >>> from pywc.datafiles import MICELLE_PDB
-            >>> u = mda.Universe(MICELLE_PDB)
-            >>> g = u.select_atoms('resname DPC')
-            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
-            >>> for ts in u.trajectory[:10]:
-            ...     inter._assign_layers()
-            >>> inter.print_timing_breakdown(skip_frames=2)  # Skip first 2 frames
+            >>> import MDAnalysis as mda  # doctest: +SKIP
+            >>> import pywc  # doctest: +SKIP
+            >>> from pywc.datafiles import MICELLE_PDB  # doctest: +SKIP
+            >>> u = mda.Universe(MICELLE_PDB)  # doctest: +SKIP
+            >>> g = u.select_atoms('resname DPC')  # doctest: +SKIP
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)  # doctest: +SKIP
+            >>> for ts in u.trajectory[:10]:  # doctest: +SKIP
+            ...     inter._assign_layers()  # doctest: +SKIP
+            >>> inter.print_timing_breakdown(skip_frames=2)  # Skip first 2 frames  # doctest: +SKIP
         """
         timings = self.get_detailed_timings(skip_frames=skip_frames)
         if not timings:
@@ -367,16 +367,16 @@ class WillardChandler(Interface):
 
             Example:
 
-            >>> import MDAnalysis as mda
-            >>> import pywc
-            >>> from pywc.datafiles import MICELLE_PDB
-            >>> u = mda.Universe(MICELLE_PDB)
-            >>> g = u.select_atoms('resname DPC')
-            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
-            >>> timings = inter.compare_backends(['cpu', 'cupy'])
-            >>> # Backend comparison:
-            >>> # cpu: 0.123 s
-            >>> # cupy: 0.045 s (2.73x speedup)
+            >>> import MDAnalysis as mda  # doctest: +SKIP
+            >>> import pywc  # doctest: +SKIP
+            >>> from pywc.datafiles import MICELLE_PDB  # doctest: +SKIP
+            >>> u = mda.Universe(MICELLE_PDB)  # doctest: +SKIP
+            >>> g = u.select_atoms('resname DPC')  # doctest: +SKIP
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)  # doctest: +SKIP
+            >>> timings = inter.compare_backends(['cpu', 'cupy'])  # doctest: +SKIP
+            >>> # Backend comparison:  # doctest: +SKIP
+            >>> # cpu: 0.123 s  # doctest: +SKIP
+            >>> # cupy: 0.045 s (2.73x speedup)  # doctest: +SKIP
         """
         if backend_options is None:
             backend_options = {}

@@ -157,8 +157,8 @@ class Data(object):
             dirname = tempfile.gettempdir()
         else:
             dirname = tmpdir
-        urlbase_md5 = 'https://raw.githubusercontent.com/Marcello-Sega/pywc/extended_datafiles/files/'
-        urlbase = 'https://github.com/Marcello-Sega/pywc/raw/extended_datafiles/files/'
+        urlbase_md5 = 'https://raw.githubusercontent.com/octupole/pyWC/extended_datafiles/files/'
+        urlbase = 'https://github.com/octupole/pyWC/raw/extended_datafiles/files/'
         print("checking presence of a cached copy...", end=' ')
         try:
             with urlopen(urlbase_md5 + filename + '.MD5') as handle:

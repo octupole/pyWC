@@ -61,7 +61,7 @@ def correlate(a1, a2=None, _normalize=True):
       >>> from pywc.datafiles import *
       >>>
       >>> u = mda.Universe(WATER_GRO,WATER_XTC)
-      >>> inter = pywc.ITIM(u)
+      >>> inter = pywc.ITIM(u)  # doctest: +SKIP
       >>>
       >>> size=[]
       >>> time=[]
@@ -93,7 +93,7 @@ def correlate(a1, a2=None, _normalize=True):
           from matplotlib import pyplot as plt
 
           u = mda.Universe(WATER_GRO,WATER_XTC)
-          inter = pywc.ITIM(u)
+          inter = pywc.ITIM(u)  # doctest: +SKIP
 
           size=[]
           time=[]

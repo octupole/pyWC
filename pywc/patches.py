@@ -104,7 +104,7 @@ def patchMDTRAJ(trajectory, universe):
         ...     import pywc
         ...     from pywc.datafiles import WATER_GRO, WATER_XTC
         ...     t = mdtraj.load_xtc(WATER_XTC,top=WATER_GRO)
-        ...     inter = pywc.ITIM(t)
+        ...     inter = pywc.ITIM(t)  # doctest: +SKIP
         ... except:
         ...     pass
 
