@@ -1,0 +1,93 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: 'pyWC: Willard-Chandler Surface Analysis Toolkit'
+message: >-
+  If you use this software, please cite both this fork and the
+  original pytim paper (see preferred-citation).
+type: software
+authors:
+  - given-names: Massimo
+    family-names: Marchi
+    email: massimo@octupole.org
+    affiliation: CEA Saclay
+repository-code: 'https://github.com/octupole/pyWC'
+url: 'https://github.com/octupole/pyWC'
+abstract: >-
+  pyWC is a high-performance Python toolkit for computing and
+  analyzing Willard-Chandler intrinsic density surfaces from
+  molecular dynamics simulations. This package is a specialized
+  fork of pytim, focusing exclusively on the Willard-Chandler
+  method with significant performance improvements including ~35x
+  faster KDE evaluation through optimized C++ implementation, GPU
+  acceleration via CuPy for large systems, and 10-20x faster
+  system centering with OpenMP parallelization.
+keywords:
+  - molecular dynamics
+  - surface analysis
+  - Willard-Chandler
+  - intrinsic surfaces
+  - computational chemistry
+  - biophysics
+  - interfaces
+  - GPU acceleration
+license: GPL-3.0-only
+version: 1.0.4+wc
+date-released: '2025-10-18'
+
+# Original pytim paper should be cited when using pyWC
+preferred-citation:
+  type: article
+  authors:
+    - given-names: Marcello
+      family-names: Sega
+      email: m.sega@ucl.ac.uk
+      affiliation: University College London
+    - given-names: Balazs
+      family-names: Fabian
+    - given-names: Pál
+      family-names: Jedlovszky
+  title: 'Pytim: A python package for the interfacial analysis of molecular simulations'
+  journal: 'Journal of Computational Chemistry'
+  volume: 39
+  issue: 25
+  start: 2118
+  end: 2125
+  year: 2018
+  doi: 10.1002/jcc.25384
+  url: 'https://doi.org/10.1002/jcc.25384'
+
+# Additional references
+references:
+  - type: article
+    authors:
+      - given-names: Adam P.
+        family-names: Willard
+      - given-names: David
+        family-names: Chandler
+    title: 'Instantaneous liquid interfaces'
+    journal: 'The Journal of Physical Chemistry B'
+    volume: 114
+    issue: 5
+    start: 1954
+    end: 1958
+    year: 2010
+    doi: 10.1021/jp909219k
+    url: 'https://doi.org/10.1021/jp909219k'
+    scope: 'This is the original paper describing the Willard-Chandler method implemented in pyWC.'
+
+  - type: software
+    authors:
+      - given-names: Marcello
+        family-names: Sega
+      - given-names: Balazs
+        family-names: Fabian
+      - given-names: Gyorgy
+        family-names: Hantal
+      - given-names: Pál
+        family-names: Jedlovszky
+    title: 'pytim: Python package for interfacial analysis'
+    url: 'https://github.com/Marcello-Sega/pytim'
+    repository-code: 'https://github.com/Marcello-Sega/pytim'
+    scope: 'pyWC is a fork of pytim, focusing on the Willard-Chandler method with performance enhancements.'

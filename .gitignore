@@ -36,7 +36,7 @@ output/
 surface_map.dx
 benchmark
 export/
-
+documentation_backup/
 .idea/
 *.pyc
 *userupload/
@@ -53,4 +53,13 @@ dbscan_inner.cpp
 !CMakeLists.txt
 !requirements.txt
 !requirements.testing.txt
+
+# Python packaging
+*.egg-info/
+dist/
+*.egg
+__pycache__/
+.pytest_cache/
+.coverage
+htmlcov/
 
