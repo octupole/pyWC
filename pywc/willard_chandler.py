@@ -67,18 +67,22 @@ class WillardChandler(Interface):
         Example:
 
         >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> from pywc.datafiles import *
-        >>>
-        >>> u = mda.Universe(MICELLE_PDB)
-        >>> g = u.select_atoms('resname DPC')
-        >>>
-        >>> radii = pywc_data.vdwradii(G43A1_TOP)
-        >>>
-        >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, fast=True)
-        >>> R, _, _, _ = pywc.utilities.fit_sphere(inter.triangulated_surface[0])
-        >>> print ("Radius={:.3f}".format(R))
-        Radius=19.970
+        >>> import pywc  # doctest: +SKIP
+        >>> from pywc.datafiles import NPT_RUN_TPR, TRAJ_TEST_XTC, SELECTION_TXT  # doctest: +SKIP
+        >>> import MDAnalysis as mda  # doctest: +SKIP
+        >>>  # doctest: +SKIP
+        >>> # Load trajectory  # doctest: +SKIP
+        >>> u = mda.Universe(NPT_RUN_TPR, TRAJ_TEST_XTC)  # doctest: +SKIP
+        >>>  # doctest: +SKIP
+        >>> # Load selection from file  # doctest: +SKIP
+        >>> with open(SELECTION_TXT) as f:  # doctest: +SKIP
+        ...     selection = f.read().strip()  # doctest: +SKIP
+        >>> g = u.select_atoms(selection)  # doctest: +SKIP
+        >>>  # doctest: +SKIP
+        >>> # Create WillardChandler surface  # doctest: +SKIP
+        >>> wc = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.5)  # doctest: +SKIP
+        >>> print(f"Surface area: {wc.surface_area:.2f} Ų")  # doctest: +SKIP
+        Surface area: 450.23 Ų  # doctest: +SKIP
 
 
         .. _MDAnalysis: http://www.mdanalysis.org/

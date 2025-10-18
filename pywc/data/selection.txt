@@ -1,0 +1,8 @@
+(name C1A or name O1A or name H1A or name 
+C2A or name H2A or name O2A or name H2O or name 
+    C3A or name H3A or name O3A or name H3O or name C4A 
+    or name H4A or name O4A or name H4O or name C5A or
+    name H5A or name O5A or name C6A or name H6A or 
+    name H6B or name O6A or name H6O or name C2 or name C3 or name C4 or name C5
+    or name C6 or name  C7 or name C8 or name C9 or name C10 
+    or name C11 or name C12 or name C13 or name C14 or name C15 or name C16 or name C17)

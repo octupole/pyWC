@@ -8,25 +8,30 @@ This guide will help you get started with pyWC in just a few minutes.
 
 pyWC works with any trajectory format supported by MDAnalysis (GROMACS, CHARMM, LAMMPS, AMBER, etc.).
 
-For this tutorial, we'll use a sample water system included with pyWC:
+For this tutorial, we'll use the test trajectory included with pyWC:
 
 ```python
 import MDAnalysis as mda
 from pywc import WillardChandler
+from pywc.datafiles import NPT_RUN_TPR, TRAJ_TEST_XTC, SELECTION_TXT
 
-# Load the sample water/vapor system
-u = mda.Universe("pywc/data/water.gro", "pywc/data/water.xtc")
+# Load the test trajectory
+u = mda.Universe(NPT_RUN_TPR, TRAJ_TEST_XTC)
 ```
 
 ### Step 2: Select Atoms
 
-Select the group of atoms you want to analyze:
+Select the group of atoms you want to analyze. For this example, we'll load a selection from file:
 
 ```python
-# Select all water molecules
-water = u.select_atoms("resname SOL")
+# Load selection from file
+with open(SELECTION_TXT) as f:
+    selection_text = f.read().strip()
 
-print(f"Selected {len(water)} atoms")
+# Apply selection
+group = u.select_atoms(selection_text)
+
+print(f"Selected {len(group)} atoms")
 ```
 
 ### Step 3: Create WillardChandler Object
@@ -34,9 +39,9 @@ print(f"Selected {len(water)} atoms")
 ```python
 wc = WillardChandler(
     u,
-    group=water,
-    alpha=2.4,           # Gaussian width in Ångströms
-    mesh=2.0,            # Grid spacing in Ångströms
+    group=group,
+    alpha=3.0,           # Gaussian width in Ångströms
+    mesh=2.5,            # Grid spacing in Ångströms
     centered=True,       # Center the system
     surface_backend='cpp' # Use C++ backend
 )
