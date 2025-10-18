@@ -478,7 +478,7 @@ class Interface(object):
         that code is running -- no test on the correctness
         of the output is performed here.
 
-        >>> # TEST:0 loading the module  # doctest: +SKIP
+        >>> # TEST:0 loading the module
         >>> import pywc  # doctest: +SKIP
         >>> pywc.ITIM._() ; # coverage  # doctest: +SKIP
 

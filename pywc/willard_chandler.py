@@ -260,7 +260,7 @@ class WillardChandler(Interface):
             >>> u = mda.Universe(MICELLE_PDB)  # doctest: +SKIP
             >>> g = u.select_atoms('resname DPC')  # doctest: +SKIP
             >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)  # doctest: +SKIP
-            >>> # Process multiple frames  # doctest: +SKIP
+            >>> # Process multiple frames
             >>> for ts in u.trajectory[:10]:  # doctest: +SKIP
             ...     inter._assign_layers()  # doctest: +SKIP
             >>> timings = inter.get_detailed_timings(skip_frames=2)  # Skip first 2 frames  # doctest: +SKIP
@@ -374,9 +374,9 @@ class WillardChandler(Interface):
             >>> g = u.select_atoms('resname DPC')  # doctest: +SKIP
             >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)  # doctest: +SKIP
             >>> timings = inter.compare_backends(['cpu', 'cupy'])  # doctest: +SKIP
-            >>> # Backend comparison:  # doctest: +SKIP
-            >>> # cpu: 0.123 s  # doctest: +SKIP
-            >>> # cupy: 0.045 s (2.73x speedup)  # doctest: +SKIP
+            >>> # Backend comparison:
+            >>> # cpu: 0.123 s
+            >>> # cupy: 0.045 s (2.73x speedup)
         """
         if backend_options is None:
             backend_options = {}
