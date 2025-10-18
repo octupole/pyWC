@@ -10,8 +10,8 @@ This script compares the performance of:
 import time
 import numpy as np
 import MDAnalysis as mda
-import pytim
-from pytim._center_impl import HAS_CENTER_GPU, HAS_CENTER_FULL
+import pywc
+from pywc._center_impl import HAS_CENTER_GPU, HAS_CENTER_FULL
 
 def benchmark_centering(u, g, backend, n_frames=100):
     """Benchmark centering for a given backend."""
@@ -22,7 +22,7 @@ def benchmark_centering(u, g, backend, n_frames=100):
     # Warm-up (3 frames)
     for _ in range(3):
         u.trajectory[0]
-        inter = pytim.WillardChandler(
+        inter = pywc.WillardChandler(
             u,
             group=g,
             alpha=3.0,
@@ -38,7 +38,7 @@ def benchmark_centering(u, g, backend, n_frames=100):
         u.trajectory[0]
 
         start = time.perf_counter()
-        inter = pytim.WillardChandler(
+        inter = pywc.WillardChandler(
             u,
             group=g,
             alpha=3.0,
@@ -86,7 +86,7 @@ def main():
 
     # Load test data - use larger system for meaningful benchmark
     import os
-    data_dir = os.path.join(os.path.dirname(pytim.__file__), 'data')
+    data_dir = os.path.join(os.path.dirname(pywc.__file__), 'data')
 
     # Try to use a larger system
     test_files = [

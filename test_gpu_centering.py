@@ -11,8 +11,8 @@ This script tests:
 import sys
 import numpy as np
 import MDAnalysis as mda
-import pytim
-from pytim._center_impl import HAS_CENTER_GPU, HAS_CENTER_FULL
+import pywc
+from pywc._center_impl import HAS_CENTER_GPU, HAS_CENTER_FULL
 
 def main():
     print("=" * 70)
@@ -31,7 +31,7 @@ def main():
 
     # Load test data
     import os
-    data_dir = os.path.join(os.path.dirname(pytim.__file__), 'data')
+    data_dir = os.path.join(os.path.dirname(pywc.__file__), 'data')
     u = mda.Universe(f"{data_dir}/water-small.gro",
                      f"{data_dir}/water-small.gro")
 
@@ -46,7 +46,7 @@ def main():
     print("Testing CPU (C++) centering backend...")
     print(f"{'='*70}")
     try:
-        inter_cpu = pytim.WillardChandler(
+        inter_cpu = pywc.WillardChandler(
             u,
             group=g,
             alpha=3.0,
@@ -74,7 +74,7 @@ def main():
     print("Testing GPU (CuPy) centering backend...")
     print(f"{'='*70}")
     try:
-        inter_gpu = pytim.WillardChandler(
+        inter_gpu = pywc.WillardChandler(
             u,
             group=g,
             alpha=3.0,

@@ -2,7 +2,7 @@
 """Test if there's a warm-up effect."""
 
 import MDAnalysis as mda
-import pytim
+import pywc
 import time
 import numpy as np
 
@@ -26,7 +26,7 @@ cpp_times = []
 for i in range(10):
     u.trajectory[0]
     start = time.perf_counter()
-    inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
+    inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
                                   centered=True, enable_timing=True)
     elapsed = time.perf_counter() - start
     cpp_times.append(elapsed * 1000)
@@ -50,11 +50,11 @@ print(f"  Mean (2-10):{np.mean(cpp_times[1:]):.2f} ms")
 print("\n" + "-" * 70)
 print("Running 10 iterations with Python fallback...")
 
-from pytim import interface
+from pywc import interface
 original_center = interface.Interface._center
 
 def python_center_wrapper(group, direction, halfbox_shift=False):
-    from pytim._center_impl import _center_python
+    from pywc._center_impl import _center_python
     return _center_python(group, direction, halfbox_shift)
 
 interface.Interface._center = staticmethod(python_center_wrapper)
@@ -63,7 +63,7 @@ py_times = []
 for i in range(10):
     u.trajectory[0]
     start = time.perf_counter()
-    inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
+    inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
                                   centered=True, enable_timing=True)
     elapsed = time.perf_counter() - start
     py_times.append(elapsed * 1000)

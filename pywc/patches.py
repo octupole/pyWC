@@ -81,7 +81,7 @@ def patchMDTRAJ_ReplacementTables():
     try:
         import mdtraj
         if not (mdtraj.formats.pdb.PDBTrajectoryFile._atomNameReplacements == {}):
-            print('Warning: mdtraj has not been patched correctly. The trajectory must be loaded *after* importing pytim: some atom names might have been replaced')
+            print('Warning: mdtraj has not been patched correctly. The trajectory must be loaded *after* importing pywc: some atom names might have been replaced')
 
         @staticmethod
         def _NoReplacementTables():
@@ -101,10 +101,10 @@ def patchMDTRAJ(trajectory, universe):
 
         >>> try:
         ...     import mdtraj
-        ...     import pytim
-        ...     from pytim.datafiles import WATER_GRO, WATER_XTC
+        ...     import pywc
+        ...     from pywc.datafiles import WATER_GRO, WATER_XTC
         ...     t = mdtraj.load_xtc(WATER_XTC,top=WATER_GRO)
-        ...     inter = pytim.ITIM(t)
+        ...     inter = pywc.ITIM(t)
         ... except:
         ...     pass
 

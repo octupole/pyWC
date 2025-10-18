@@ -2,20 +2,23 @@
   "permissions": {
     "allow": [
       "Bash(python:*)",
-      "Bash(/opt/miniforge3/envs/pytim-git/bin/python:*)",
-      "Read(//opt/miniforge3/envs/pytim-git/bin/**)",
-      "Bash(/opt/miniforge3/envs/pytim-git/bin/pytim-compare-wc-backends:*)",
-      "Bash(/opt/miniforge3/envs/pytim-git/bin/pytim-wc-area:*)",
-      "Bash(/opt/miniforge3/envs/pytim-git/bin/pytim-bending-rigidity:*)",
+      "Bash(/opt/miniforge3/envs/pywc-git/bin/python:*)",
+      "Read(//opt/miniforge3/envs/pywc-git/bin/**)",
+      "Bash(/opt/miniforge3/envs/pywc-git/bin/pywc-compare-wc-backends:*)",
+      "Bash(/opt/miniforge3/envs/pywc-git/bin/pywc-wc-area:*)",
+      "Bash(/opt/miniforge3/envs/pywc-git/bin/pywc-bending-rigidity:*)",
       "Bash(tee:*)",
-      "Read(//opt/miniforge3/envs/pytim-git/lib/python3.12/site-packages/**)",
-      "Bash(pytim-wc-area:*)",
+      "Read(//opt/miniforge3/envs/pywc-git/lib/python3.12/site-packages/**)",
+      "Bash(pywc-wc-area:*)",
       "Read(//home/marchi/pyTimTest/**)",
-      "Bash(/opt/miniforge3/envs/pytim-git/bin/pywc-area:*)",
+      "Bash(/opt/miniforge3/envs/pywc-git/bin/pywc-area:*)",
       "Bash(/opt/miniforge3/envs/pywc/bin/python -m pip install:*)",
       "Bash(/opt/miniforge3/envs/pywc/bin/python:*)",
       "Bash(/opt/miniforge3/envs/pywc/bin/pywc-area:*)",
-      "Bash(/opt/miniforge3/envs/pytim-git/bin/pip install:*)"
+      "Bash(/opt/miniforge3/envs/pywc-git/bin/pip install:*)",
+      "Bash(git reset:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

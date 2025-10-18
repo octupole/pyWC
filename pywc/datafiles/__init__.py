@@ -1,6 +1,6 @@
 # -*- Mode: python; tab-width: 4; indent-tabs-mode:nil; coding: utf-8 -*-
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
-""" Location of data files for Pytim examples and tests
+""" Location of data files for pyWC examples and tests
 ====================================================
 
     Real MD simulation data are stored in the ``data/`` subdirectory.
@@ -9,17 +9,17 @@
     Example: load an example trajectory
 
     >>> import MDAnalysis as mda
-    >>> import pytim
+    >>> import pywc
     >>> import numpy as np
-    >>> from pytim.datafiles import *
+    >>> from pywc.datafiles import *
     >>> u         = mda.Universe(WATER_GRO,WATER_XTC)
     >>> print(u)
     <Universe with 12000 atoms>
 
     Example: list all configurations
 
-    >>> for config in sorted(pytim_data.config):
-    ...     print("{:20s} {:s}".format(config,pytim_data.description[config]))
+    >>> for config in sorted(pywc_data.config):
+    ...     print("{:20s} {:s}".format(config,pywc_data.description[config]))
     CCL4_WATER_GRO       Carbon tetrachloride/TIP4p water interface
     DPPC_GRO             DPPC bilayer
     FULLERENE_PDB        fullerene
@@ -39,14 +39,14 @@
 
     Example: list all topologies
 
-    >>> print(np.sort(pytim_data.topol))
+    >>> print(np.sort(pywc_data.topol))
     ['AMBER03_TOP' 'CHARMM27_TOP' 'G43A1_TOP' 'WATER_LMP_DATA']
 
 
 
     Example: list all trajectories
 
-    >>> print (np.sort(pytim_data.traj))
+    >>> print (np.sort(pywc_data.traj))
     ['LJ_SHORT_XTC' 'WATER_DROPLET_CYLINDRICAL_XTC' 'WATER_LMP_XTC'
      'WATER_XTC']
 
@@ -54,10 +54,10 @@
 
     Example: list all files, file type, file format and description
 
-    >>> for label in  pytim_data.label:
-    ...      type        = pytim_data.type[label]
-    ...      format      = pytim_data.format[label]
-    ...      description = pytim_data.description[label]
+    >>> for label in  pywc_data.label:
+    ...      type        = pywc_data.type[label]
+    ...      format      = pywc_data.format[label]
+    ...      description = pywc_data.description[label]
 
     """
 
@@ -89,7 +89,7 @@ __all__ = [
     "G43A1_TOP",  # GROMOS 43a1 nonbonded parameters, from the gromacs distribution
     "AMBER03_TOP",  # AMBER03 nonbonded parameters, from the gromacs distribution
     "CHARMM27_TOP",  # CHARM27 nonbonded parameters, from the gromacs distribution
-    "pytim_data",  # class to access the data
+    "pywc_data",  # class to access the data
     "_TEST_BCC_GRO",  # test file
     "_TEST_ORIENTATION_GRO",  # test file
     "_TEST_PROFILE_GRO",  # test file
@@ -131,18 +131,18 @@ class Data(object):
     def fetch(name, tmpdir=None):
         """ Fetch a sample trajectory from the github repository.
 
-            Have a look at https://github.com/Marcello-Sega/pytim/raw/extended_datafiles/files/
+            Have a look at https://github.com/Marcello-Sega/pywc/raw/extended_datafiles/files/
             for the available files
 
             Example:
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import WATERSMALL_GRO
+            >>> import pywc
+            >>> from pywc.datafiles import WATERSMALL_GRO
 
             >>> # tmpdir here is specified only for travis
             >>> import os
-            >>> WATERSMALL_TRR = pytim.datafiles.pytim_data.fetch('WATERSMALL_TRR',tmpdir='./')
+            >>> WATERSMALL_TRR = pywc.datafiles.pywc_data.fetch('WATERSMALL_TRR',tmpdir='./')
             checking presence of a cached copy... not found. Fetching remote file... done.
 
             >>> u = mda.Universe(WATERSMALL_GRO,WATERSMALL_TRR)
@@ -157,8 +157,8 @@ class Data(object):
             dirname = tempfile.gettempdir()
         else:
             dirname = tmpdir
-        urlbase_md5 = 'https://raw.githubusercontent.com/Marcello-Sega/pytim/extended_datafiles/files/'
-        urlbase = 'https://github.com/Marcello-Sega/pytim/raw/extended_datafiles/files/'
+        urlbase_md5 = 'https://raw.githubusercontent.com/Marcello-Sega/pywc/extended_datafiles/files/'
+        urlbase = 'https://github.com/Marcello-Sega/pywc/raw/extended_datafiles/files/'
         print("checking presence of a cached copy...", end=' ')
         try:
             with urlopen(urlbase_md5 + filename + '.MD5') as handle:
@@ -246,108 +246,108 @@ class Data(object):
         return radii
 
 
-pytim_data = Data()
+pywc_data = Data()
 
 # NOTE: to add a new datafile, make sure it is listed in setup.py (in the root directory)
 # in the package_data option (a glob like 'data/*' is usually enough)
-CCL4_WATER_GRO = resource('pytim', 'data/CCL4.H2O.GRO')
-pytim_data.add('CCL4_WATER_GRO', 'config', 'GRO',
+CCL4_WATER_GRO = resource('pywc', 'data/CCL4.H2O.GRO')
+pywc_data.add('CCL4_WATER_GRO', 'config', 'GRO',
                'Carbon tetrachloride/TIP4p water interface')
 
-WATER_GRO = resource('pytim', 'data/water.gro')
-pytim_data.add('WATER_GRO', 'config', 'GRO', 'SPC water/vapour interface')
+WATER_GRO = resource('pywc', 'data/water.gro')
+pywc_data.add('WATER_GRO', 'config', 'GRO', 'SPC water/vapour interface')
 
-WATER_LMP_XTC = resource('pytim', 'data/water_lmp.xtc')
-pytim_data.add('WATER_LMP_XTC', 'traj', 'LAMMPS', 'SPC water/vapour interface')
+WATER_LMP_XTC = resource('pywc', 'data/water_lmp.xtc')
+pywc_data.add('WATER_LMP_XTC', 'traj', 'LAMMPS', 'SPC water/vapour interface')
 
-WATER_PDB = resource('pytim', 'data/water.pdb')
-pytim_data.add('WATER_PDB', 'config', 'PDB', 'SPC water/vapour interface')
+WATER_PDB = resource('pywc', 'data/water.pdb')
+pywc_data.add('WATER_PDB', 'config', 'PDB', 'SPC water/vapour interface')
 
-WATER_XYZ = resource('pytim', 'data/water.xyz')
-pytim_data.add('WATER_XYZ', 'config', 'XYZ', 'SPC water/vapour interface')
+WATER_XYZ = resource('pywc', 'data/water.xyz')
+pywc_data.add('WATER_XYZ', 'config', 'XYZ', 'SPC water/vapour interface')
 
-MICELLE_PDB = resource('pytim', 'data/micelle.pdb')
-pytim_data.add('MICELLE_PDB', 'config', 'GRO', 'DPC micelle')
+MICELLE_PDB = resource('pywc', 'data/micelle.pdb')
+pywc_data.add('MICELLE_PDB', 'config', 'GRO', 'DPC micelle')
 
-FULLERENE_PDB = resource('pytim', 'data/fullerene.pdb')
-pytim_data.add('FULLERENE_PDB', 'config', 'PDB', 'fullerene')
+FULLERENE_PDB = resource('pywc', 'data/fullerene.pdb')
+pywc_data.add('FULLERENE_PDB', 'config', 'PDB', 'fullerene')
 
-DPPC_GRO = resource('pytim', 'data/dppc.gro')
-pytim_data.add('DPPC_GRO', 'config', 'GRO', 'DPPC bilayer')
+DPPC_GRO = resource('pywc', 'data/dppc.gro')
+pywc_data.add('DPPC_GRO', 'config', 'GRO', 'DPPC bilayer')
 
-GLUCOSE_PDB = resource('pytim', 'data/glucose.pdb')
-pytim_data.add('GLUCOSE_PDB', 'config', 'PDB', 'solvated beta-d-glucose')
+GLUCOSE_PDB = resource('pywc', 'data/glucose.pdb')
+pywc_data.add('GLUCOSE_PDB', 'config', 'PDB', 'solvated beta-d-glucose')
 
-LJ_GRO = resource('pytim', 'data/LJ.gro')
-pytim_data.add('LJ_GRO', 'config', 'GRO',
+LJ_GRO = resource('pywc', 'data/LJ.gro')
+pywc_data.add('LJ_GRO', 'config', 'GRO',
                'Lennard-Jones liquid/vapour interface')
 
-LJ_SHORT_XTC = resource('pytim', 'data/LJ.short.xtc')
-pytim_data.add('LJ_SHORT_XTC', 'traj', 'XTC', 'LJ liquid/vapour interface')
+LJ_SHORT_XTC = resource('pywc', 'data/LJ.short.xtc')
+pywc_data.add('LJ_SHORT_XTC', 'traj', 'XTC', 'LJ liquid/vapour interface')
 
-WATERSMALL_GRO = resource('pytim', 'data/water-small.gro')
-pytim_data.add('WATERSMALL_GRO', 'config', 'GRO',
+WATERSMALL_GRO = resource('pywc', 'data/water-small.gro')
+pywc_data.add('WATERSMALL_GRO', 'config', 'GRO',
                'small SPC water/vapour interface')
 
-WATER_TWO_INTERFACES = resource('pytim', 'data/water-2-interfaces.gro')
-pytim_data.add('WATER_TWO_INTERFACES', 'config', 'GRO',
+WATER_TWO_INTERFACES = resource('pywc', 'data/water-2-interfaces.gro')
+pywc_data.add('WATER_TWO_INTERFACES', 'config', 'GRO',
                'two SPC water/vapour interfaces')
 
-WATER_520K_GRO = resource('pytim', 'data/water_520K.gro')
-pytim_data.add('WATER_520K_GRO', 'config', 'GRO',
+WATER_520K_GRO = resource('pywc', 'data/water_520K.gro')
+pywc_data.add('WATER_520K_GRO', 'config', 'GRO',
                'SPC/E water/vapour interface, 520K')
 
-WATER_550K_GRO = resource('pytim', 'data/water_550K.gro')
-pytim_data.add('WATER_550K_GRO', 'config', 'GRO',
+WATER_550K_GRO = resource('pywc', 'data/water_550K.gro')
+pywc_data.add('WATER_550K_GRO', 'config', 'GRO',
                'SPC/E water/vapour interface, 550K')
 
-WATER_DROPLET_CYLINDRICAL_GRO = resource('pytim', 'data/water_droplet_cylindrical.gro')
-pytim_data.add('WATER_DROPLET_CYLINDRICAL_GRO', 'config', 'GRO',
+WATER_DROPLET_CYLINDRICAL_GRO = resource('pywc', 'data/water_droplet_cylindrical.gro')
+pywc_data.add('WATER_DROPLET_CYLINDRICAL_GRO', 'config', 'GRO',
                'cylindrical water droplet on graphite')
 
-WATER_DROPLET_CYLINDRICAL_XTC = resource('pytim', 'data/water_droplet_cylindrical.xtc')
-pytim_data.add('WATER_DROPLET_CYLINDRICAL_XTC', 'traj', 'XTC',
+WATER_DROPLET_CYLINDRICAL_XTC = resource('pywc', 'data/water_droplet_cylindrical.xtc')
+pywc_data.add('WATER_DROPLET_CYLINDRICAL_XTC', 'traj', 'XTC',
                'cylindrical water droplet on graphite trajectory')
 
-WATER_DROPLET_SPHERICAL_GRO = resource('pytim', 'data/water_droplet_spherical.gro')
-pytim_data.add('WATER_DROPLET_SPHERICAL_GRO', 'config', 'GRO',
+WATER_DROPLET_SPHERICAL_GRO = resource('pywc', 'data/water_droplet_spherical.gro')
+pywc_data.add('WATER_DROPLET_SPHERICAL_GRO', 'config', 'GRO',
                'spherical water droplet on graphite')
 
-METHANOL_GRO = resource('pytim', 'data/methanol.gro')
-pytim_data.add('METHANOL_GRO', 'conf', 'GRO', 'methanol/vapour interface')
+METHANOL_GRO = resource('pywc', 'data/methanol.gro')
+pywc_data.add('METHANOL_GRO', 'conf', 'GRO', 'methanol/vapour interface')
 
-ILBENZENE_GRO = resource('pytim', 'data/ilbenzene.gro')
-pytim_data.add('ILBENZENE_GRO', 'conf', 'GRO', 'BMIM PF4 / benzene interface')
+ILBENZENE_GRO = resource('pywc', 'data/ilbenzene.gro')
+pywc_data.add('ILBENZENE_GRO', 'conf', 'GRO', 'BMIM PF4 / benzene interface')
 
-ANTAGONISTIC_GRO = resource('pytim', 'data/antagonistic.gro')
-pytim_data.add('ANTAGONISTIC_GRO', 'conf', 'GRO', '3-Methylpyridine, Sodium Tetraphenylborate and water')
+ANTAGONISTIC_GRO = resource('pywc', 'data/antagonistic.gro')
+pywc_data.add('ANTAGONISTIC_GRO', 'conf', 'GRO', '3-Methylpyridine, Sodium Tetraphenylborate and water')
 
-WATER_XTC = resource('pytim', 'data/water.xtc')
-pytim_data.add('WATER_XTC', 'traj', 'XTC',
+WATER_XTC = resource('pywc', 'data/water.xtc')
+pywc_data.add('WATER_XTC', 'traj', 'XTC',
                'SPC water/vapour interface trajectory')
 
-_TEST_BCC_GRO = resource('pytim', 'data/_test_bcc.gro')
-pytim_data.add('_TEST_BCC_GRO', 'config', 'GRO', 'test file')
+_TEST_BCC_GRO = resource('pywc', 'data/_test_bcc.gro')
+pywc_data.add('_TEST_BCC_GRO', 'config', 'GRO', 'test file')
 
-_TEST_ORIENTATION_GRO = resource('pytim',
+_TEST_ORIENTATION_GRO = resource('pywc',
                                           'data/_test_orientation.gro')
-pytim_data.add('_TEST_ORIENTATION_GRO', 'config', 'GRO', 'test file')
+pywc_data.add('_TEST_ORIENTATION_GRO', 'config', 'GRO', 'test file')
 
-_TEST_PROFILE_GRO = resource('pytim', 'data/_test_profile.gro')
-pytim_data.add('_TEST_PROFILE_GRO', 'config', 'GRO', 'test file')
+_TEST_PROFILE_GRO = resource('pywc', 'data/_test_profile.gro')
+pywc_data.add('_TEST_PROFILE_GRO', 'config', 'GRO', 'test file')
 
-WATER_LMP_DATA = resource('pytim', 'data/water_lmp.data')
-pytim_data.add('WATER_LMP_DATA', 'topol', 'DATA',
+WATER_LMP_DATA = resource('pywc', 'data/water_lmp.data')
+pywc_data.add('WATER_LMP_DATA', 'topol', 'DATA',
                'LAMMPS topology for WATER_LAMMPS')
 
-G43A1_TOP = resource('pytim', 'data/ffg43a1.nonbonded.itp')
-pytim_data.add('G43A1_TOP', 'topol', 'GMX', 'GROMOS 43A1 topology for GROMACS')
+G43A1_TOP = resource('pywc', 'data/ffg43a1.nonbonded.itp')
+pywc_data.add('G43A1_TOP', 'topol', 'GMX', 'GROMOS 43A1 topology for GROMACS')
 
-AMBER03_TOP = resource('pytim', 'data/ffamber03.nonbonded.itp')
-pytim_data.add('AMBER03_TOP', 'topol', 'GMX', 'AMBER 03 topology for GROMACS')
+AMBER03_TOP = resource('pywc', 'data/ffamber03.nonbonded.itp')
+pywc_data.add('AMBER03_TOP', 'topol', 'GMX', 'AMBER 03 topology for GROMACS')
 
-CHARMM27_TOP = resource('pytim', 'data/ffcharmm27.nonbonded.itp')
-pytim_data.add('CHARMM27_TOP', 'topol', 'GMX',
+CHARMM27_TOP = resource('pywc', 'data/ffcharmm27.nonbonded.itp')
+pywc_data.add('CHARMM27_TOP', 'topol', 'GMX',
                'CHARMM 27 topology for GROMACS')
 
 # This should be the last line: clean up namespace

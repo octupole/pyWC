@@ -5,7 +5,7 @@ import numpy as np
 import scipy
 from scipy.cluster import vq
 from scipy.spatial import cKDTree
-from pytim_dbscan import dbscan_inner
+from pywc_dbscan import dbscan_inner
 from packaging import version
 
 def determine_samples(threshold_density, cluster_cut, n_neighbors):
@@ -86,11 +86,11 @@ def _():
     that the DBSCAN behavior is kept consistent
 
     >>> import MDAnalysis as mda
-    >>> import pytim
-    >>> pytim.utilities_dbscan._() ; # coverage
+    >>> import pywc
+    >>> pywc.utilities_dbscan._() ; # coverage
     >>> import numpy as np
-    >>> from pytim.datafiles import ILBENZENE_GRO
-    >>> from pytim.utilities import do_cluster_analysis_dbscan as DBScan
+    >>> from pywc.datafiles import ILBENZENE_GRO
+    >>> from pywc.utilities import do_cluster_analysis_dbscan as DBScan
     >>> u = mda.Universe(ILBENZENE_GRO)
     >>> benzene = u.select_atoms('name C and resname LIG')
     >>> u.atoms.positions = u.atoms.pack_into_box()

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compute membrane–solvent interface area and thickness using pytim's Willard–Chandler surface.
+"""Compute membrane–solvent interface area and thickness using pywc's Willard–Chandler surface.
 
 This script iterates over a trajectory, builds the Willard–Chandler dividing
 surface for a user-provided atom selection, and records the total triangulated
@@ -18,7 +18,7 @@ from typing import Optional
 
 import MDAnalysis as mda
 import numpy as np
-import pytim
+import pywc
 from skimage import measure
 
 try:
@@ -208,7 +208,7 @@ def format_time(ts) -> Optional[float]:
         return None
 
 
-def ensure_assign(interface: pytim.WillardChandler, force: bool = False) -> None:
+def ensure_assign(interface: pywc.WillardChandler, force: bool = False) -> None:
     """Recompute the interface if `force` is True or autoassign is disabled."""
     if force or not getattr(interface, "autoassign", True):
         interface._assign_layers()
@@ -270,7 +270,7 @@ def compute_frame_extrema(vertices: np.ndarray, lx: float, ly: float, grid_size:
 
 
 def apply_density_level(
-    interface: pytim.WillardChandler, level: float
+    interface: pywc.WillardChandler, level: float
 ) -> Optional[float]:
     """Reconstruct the triangulated surface for a given relative density level."""
 
@@ -351,7 +351,7 @@ def main(args: argparse.Namespace) -> None:
     use_density_level = args.density_cutoff is None
 
     # Always enable timing to provide performance feedback
-    interface = pytim.WillardChandler(
+    interface = pywc.WillardChandler(
         universe,
         group=analysis_group,
         alpha=args.alpha,

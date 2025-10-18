@@ -67,16 +67,16 @@ class WillardChandler(Interface):
         Example:
 
         >>> import MDAnalysis as mda
-        >>> import pytim
-        >>> from pytim.datafiles import *
+        >>> import pywc
+        >>> from pywc.datafiles import *
         >>>
         >>> u = mda.Universe(MICELLE_PDB)
         >>> g = u.select_atoms('resname DPC')
         >>>
-        >>> radii = pytim_data.vdwradii(G43A1_TOP)
+        >>> radii = pywc_data.vdwradii(G43A1_TOP)
         >>>
-        >>> inter= pytim.WillardChandler(u, group=g, alpha=3.0, fast=True)
-        >>> R, _, _, _ = pytim.utilities.fit_sphere(inter.triangulated_surface[0])
+        >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, fast=True)
+        >>> R, _, _, _ = pywc.utilities.fit_sphere(inter.triangulated_surface[0])
         >>> print ("Radius={:.3f}".format(R))
         Radius=19.970
 
@@ -98,12 +98,12 @@ class WillardChandler(Interface):
         Example:
 
         >>> import MDAnalysis as mda
-        >>> import pytim
-        >>> from pytim.datafiles import *
+        >>> import pywc
+        >>> from pywc.datafiles import *
         >>>
         >>> u = mda.Universe(MICELLE_PDB)
         >>> g = u.select_atoms('resname DPC')
-        >>> inter= pytim.WillardChandler(u, group=g, alpha=3.0, fast=True)
+        >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, fast=True)
         >>> inter.layers
         <AtomGroup with 0 atoms>
         """
@@ -114,7 +114,7 @@ class WillardChandler(Interface):
 
             >>> import pytest
             >>> with pytest.raises(Exception):
-            ...     pytim.WillardChandler(u,mesh=-1)
+            ...     pywc.WillardChandler(u,mesh=-1)
 
         """
 
@@ -168,7 +168,7 @@ class WillardChandler(Interface):
         self._atoms = self._layers[:]  # this is an empty AtomGroup
         self.writevtk = Writevtk(self)
 
-    def writecube(self, filename="pytim.cube", group=None, sequence=False, order='zyx', shift=[0,0,0], normalize=True):
+    def writecube(self, filename="pywc.cube", group=None, sequence=False, order='zyx', shift=[0,0,0], normalize=True):
         """ Write to cube files (sequences) the volumentric density and the
             atomic positions.
 
@@ -181,11 +181,11 @@ class WillardChandler(Interface):
             :param bool normalize: if true normalizes the density field to the range [0, 1]
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter= pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
+            >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
             >>> inter.writecube('dens.cube') # writes on dens.cube
             >>> inter.writecube('dens.cube',group=g) # writes also  particles
             >>> inter.writecube('dens.cube',sequence=True) # dens.<frame>.cube
@@ -204,7 +204,7 @@ class WillardChandler(Interface):
             order=order,
             normalize=normalize)
 
-    def writeobj(self, filename="pytim.obj", sequence=False):
+    def writeobj(self, filename="pywc.obj", sequence=False):
         """ Write to wavefront obj files (sequences) the triangulated surface
 
             :param str filename:  the file name
@@ -212,11 +212,11 @@ class WillardChandler(Interface):
                                   the frame to the filename
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter= pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
+            >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
             >>> inter.writeobj('surf.obj') # writes on surf.obj
             >>> inter.writeobj('surf.obj',sequence=True) # surf.<frame>.obj
         """
@@ -236,11 +236,11 @@ class WillardChandler(Interface):
             Example:
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter = pytim.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
             >>> print(f"Computation time: {inter.get_timing():.3f} s")
         """
         return self._surface_computation_time
@@ -255,11 +255,11 @@ class WillardChandler(Interface):
             Example:
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter = pytim.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
             >>> # Process multiple frames
             >>> for ts in u.trajectory[:10]:
             ...     inter._assign_layers()
@@ -301,11 +301,11 @@ class WillardChandler(Interface):
             Example:
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter = pytim.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, enable_timing=True)
             >>> for ts in u.trajectory[:10]:
             ...     inter._assign_layers()
             >>> inter.print_timing_breakdown(skip_frames=2)  # Skip first 2 frames
@@ -368,11 +368,11 @@ class WillardChandler(Interface):
             Example:
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
+            >>> inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
             >>> timings = inter.compare_backends(['cpu', 'cupy'])
             >>> # Backend comparison:
             >>> # cpu: 0.123 s

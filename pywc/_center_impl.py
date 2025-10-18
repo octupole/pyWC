@@ -1,5 +1,5 @@
 """
-Implementation of centering algorithms for pytim.
+Implementation of centering algorithms for pywc.
 
 Provides GPU (CuPy), C++ (pybind11), and pure Python implementations.
 """
@@ -21,7 +21,6 @@ except ImportError:
 try:
     from .center_fast_full import center_full_optimized
     HAS_CENTER_FULL = True
-    print(' fast and full ')
 except ImportError:
     HAS_CENTER_FULL = False
     center_full_optimized = None

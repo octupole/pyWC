@@ -14,13 +14,13 @@ import time
 from typing import Callable, Tuple
 
 import numpy as np
-from pytim.gaussian_kde_pbc import gaussian_kde_pbc as _gaussian_kde_pbc
-from pytim.wc_core.surface import compute_surface
+from pywc.gaussian_kde_pbc import gaussian_kde_pbc as _gaussian_kde_pbc
+from pywc.wc_core.surface import compute_surface
 
 
 @contextlib.contextmanager
 def force_python_impl():
-    from pytim import gaussian_kde_pbc as module
+    from pywc import gaussian_kde_pbc as module
 
     saved = module._wc_kde  # type: ignore[attr-defined]
     module._wc_kde = None

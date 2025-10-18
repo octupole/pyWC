@@ -11,14 +11,14 @@ This script demonstrates:
 # Example 1: Enable timing for a single backend
 # ------------------------------------------------
 import MDAnalysis as mda
-import pytim
-from pytim.datafiles import MICELLE_PDB
+import pywc
+from pywc.datafiles import MICELLE_PDB
 
 u = mda.Universe(MICELLE_PDB)
 g = u.select_atoms('resname DPC')
 
 # Create interface with timing enabled
-inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
+inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
                               surface_backend='cpu', enable_timing=True)
 
 # Get the computation time
@@ -29,7 +29,7 @@ print(f"CPU computation time: {timing:.4f} s")
 # Example 2: Use GPU backend with custom options
 # ------------------------------------------------
 try:
-    inter_gpu = pytim.WillardChandler(
+    inter_gpu = pywc.WillardChandler(
         u, group=g,
         alpha=3.0,
         mesh=2.0,
@@ -47,7 +47,7 @@ except Exception as e:
 
 # Example 3: Compare multiple backends
 # ------------------------------------------------
-inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
+inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
 
 # Compare CPU vs GPU with custom options for each
 results = inter.compare_backends(

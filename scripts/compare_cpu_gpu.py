@@ -8,7 +8,7 @@ import time
 
 import numpy as np
 
-from pytim.wc_core.surface import compute_surface
+from pywc.wc_core.surface import compute_surface
 
 
 def main() -> None:

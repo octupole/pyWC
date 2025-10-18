@@ -11,7 +11,7 @@ Tests:
 import sys
 import numpy as np
 import MDAnalysis as mda
-import pytim
+import pywc
 import os
 
 def test_backend(backend_name, u, g):
@@ -22,7 +22,7 @@ def test_backend(backend_name, u, g):
 
     try:
         u.trajectory[0]  # Reset to first frame
-        inter = pytim.WillardChandler(
+        inter = pywc.WillardChandler(
             u,
             group=g,
             alpha=3.0,
@@ -45,7 +45,7 @@ def main():
     print("=" * 70)
 
     # Check availability
-    from pytim.gaussian_kde_pbc import _wc_kde
+    from pywc.gaussian_kde_pbc import _wc_kde
     print(f"\nBackend availability:")
     print(f"  C++ (_wc_kde):  {_wc_kde is not None}")
 
@@ -58,7 +58,7 @@ def main():
         cupy_available = False
 
     # Load test data
-    data_dir = os.path.join(os.path.dirname(pytim.__file__), 'data')
+    data_dir = os.path.join(os.path.dirname(pywc.__file__), 'data')
     u = mda.Universe(f"{data_dir}/water-small.gro", f"{data_dir}/water-small.gro")
     g = u.select_atoms('name OW')
 

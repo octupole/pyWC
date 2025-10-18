@@ -10,8 +10,8 @@ from ..gaussian_kde_pbc import gaussian_kde_pbc
 def density_map(pos: np.ndarray, grid: np.ndarray, sigma: float, box: np.ndarray):
     """Return a periodic Gaussian KDE object evaluated on ``grid``.
 
-    This is a light wrapper around :class:`pytim.gaussian_kde_pbc.gaussian_kde_pbc`
-    mirroring the historical behaviour of :func:`pytim.utilities.density_map`.
+    This is a light wrapper around :class:`pywc.gaussian_kde_pbc.gaussian_kde_pbc`
+    mirroring the historical behaviour of :func:`pywc.utilities.density_map`.
     The function is kept here so that both the legacy utilities module and the
     refactored Willard–Chandler core can share the same implementation.
 

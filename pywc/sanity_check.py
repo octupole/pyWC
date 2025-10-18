@@ -141,7 +141,7 @@ class SanityCheck(object):
         if radii_dict is not None:
             self.interface.radii_dict = radii_dict.copy()
         else:
-            self.interface.radii_dict = datafiles.pytim_data.vdwradii(
+            self.interface.radii_dict = datafiles.pywc_data.vdwradii(
                 datafiles.G43A1_TOP).copy()
             self.patch_radii_dict()
 
@@ -172,7 +172,7 @@ class SanityCheck(object):
             gr = self.interface.guessed_radii
             if gr and self.interface.warnings:
                 print("guessed radii: ", gr, end=' ')
-                print("You can override this by using, e.g.: pytim.", end='')
+                print("You can override this by using, e.g.: pywc.", end='')
                 print(self.interface.__class__.__name__, end=' ')
                 print("(u,radii_dict={ '", end='')
                 print(list(gr.keys())[0] + "':1.2 , ... } )")

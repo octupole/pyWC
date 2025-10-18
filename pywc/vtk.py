@@ -23,7 +23,7 @@ class Writevtk(object):
         color = (np.array(color) / 256.).tolist()
         write_atomgroup(filename, group, color=color, radius=radii)
 
-    def density(self, filename='pytim_dens.vtk', sequence=False):
+    def density(self, filename='pywc_dens.vtk', sequence=False):
         """ Write to vtk files the volumetric density.
 
             :param str filename:  the file name
@@ -31,11 +31,11 @@ class Writevtk(object):
                                   the frame to the filename
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter= pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
+            >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
 
             >>> inter.writevtk.density('dens.vtk') # writes on dens.vtk
             >>> inter.writevtk.density('dens.vtk',sequence=True) # dens.<n>.vtk
@@ -47,7 +47,7 @@ class Writevtk(object):
         write_scalar_grid(filename, inter.ngrid, inter.spacing,
                           inter.density_field)
 
-    def particles(self, filename='pytim_part.vtk', group=None, sequence=False):
+    def particles(self, filename='pywc_part.vtk', group=None, sequence=False):
         """ Write to vtk files the particles in a group.
 
             :param str filename:    the file name
@@ -56,11 +56,11 @@ class Writevtk(object):
             :param AtomGroup group: if None, writes the whole universe
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter= pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
+            >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
 
             >>> # writes on part.vtk
             >>> inter.writevtk.particles('part.vtk')
@@ -75,7 +75,7 @@ class Writevtk(object):
             group = inter.universe.atoms
         self._dump_group(group, filename)
 
-    def surface(self, filename='pytim_surf.vtk', sequence=False):
+    def surface(self, filename='pywc_surf.vtk', sequence=False):
         """ Write to vtk files the triangulated surface.
 
             :param str filename:  the file name
@@ -83,11 +83,11 @@ class Writevtk(object):
                                   the frame to the filename
 
             >>> import MDAnalysis as mda
-            >>> import pytim
-            >>> from pytim.datafiles import MICELLE_PDB
+            >>> import pywc
+            >>> from pywc.datafiles import MICELLE_PDB
             >>> u = mda.Universe(MICELLE_PDB)
             >>> g = u.select_atoms('resname DPC')
-            >>> inter= pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
+            >>> inter= pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0)
             >>> inter.writevtk.surface('surf.vtk') # writes on surf.vtk
             >>> inter.writevtk.surface('surf.vtk',sequence=True) # surf.<n>.vtk
         """

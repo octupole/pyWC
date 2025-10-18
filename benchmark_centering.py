@@ -4,9 +4,9 @@
 import time
 import numpy as np
 import MDAnalysis as mda
-import pytim
-from pytim.datafiles import MICELLE_PDB
-from pytim._center_impl import HAS_CENTER_FAST, HAS_CENTER_FULL
+import pywc
+from pywc.datafiles import MICELLE_PDB
+from pywc._center_impl import HAS_CENTER_FAST, HAS_CENTER_FULL
 
 print("=" * 70)
 print("Centering Performance Benchmark")
@@ -24,7 +24,7 @@ print(f"\nTest system: {len(g)} atoms in centering group")
 print(f"Total atoms: {len(u.atoms)}")
 
 # Warm-up
-inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0, centered=True)
+inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0, centered=True)
 
 # Test with C++ optimization (current default)
 print("\n" + "-" * 70)
@@ -35,7 +35,7 @@ cpp_times = []
 for i in range(10):
     u.trajectory[0]  # Reset to first frame
     start = time.perf_counter()
-    inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
+    inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
                                    centered=True, enable_timing=True)
     elapsed = time.perf_counter() - start
     cpp_times.append(elapsed * 1000)
@@ -67,11 +67,11 @@ print("Testing PYTHON fallback implementation")
 print("-" * 70)
 
 # Temporarily disable C++ by using force_python in _center
-from pytim import interface
+from pywc import interface
 original_center = interface.Interface._center
 
 def python_center_wrapper(group, direction, halfbox_shift=False):
-    from pytim._center_impl import _center_python
+    from pywc._center_impl import _center_python
     return _center_python(group, direction, halfbox_shift)
 
 interface.Interface._center = staticmethod(python_center_wrapper)
@@ -80,7 +80,7 @@ python_times = []
 for i in range(10):
     u.trajectory[0]  # Reset to first frame
     start = time.perf_counter()
-    inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
+    inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
                                    centered=True, enable_timing=True)
     elapsed = time.perf_counter() - start
     python_times.append(elapsed * 1000)

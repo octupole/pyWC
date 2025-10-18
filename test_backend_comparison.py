@@ -3,8 +3,8 @@
 
 import numpy as np
 import MDAnalysis as mda
-import pytim
-from pytim.datafiles import MICELLE_PDB
+import pywc
+from pywc.datafiles import MICELLE_PDB
 
 print("="*70)
 print("Testing WillardChandler Backend Comparison")
@@ -18,7 +18,7 @@ print(f"   Loaded {len(g)} atoms")
 
 # Test 1: Create interface with timing enabled
 print("\n2. Creating WillardChandler interface with CPU backend and timing...")
-inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
+inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
                               surface_backend='cpu', enable_timing=True)
 print(f"   Surface area: {inter.surface_area:.2f} Å²")
 timing = inter.get_timing()
@@ -46,7 +46,7 @@ except Exception as e:
 # Test 3: Create interface with GPU backend (if available)
 print("\n5. Testing direct GPU backend creation...")
 try:
-    inter_gpu = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
+    inter_gpu = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.0,
                                      surface_backend='cupy',
                                      surface_backend_options={'chunk_size': 4096},
                                      enable_timing=True)

@@ -56,12 +56,12 @@ def correlate(a1, a2=None, _normalize=True):
                layer
 
       >>> import MDAnalysis as mda
-      >>> import pytim
+      >>> import pywc
       >>> import numpy as np
-      >>> from pytim.datafiles import *
+      >>> from pywc.datafiles import *
       >>>
       >>> u = mda.Universe(WATER_GRO,WATER_XTC)
-      >>> inter = pytim.ITIM(u)
+      >>> inter = pywc.ITIM(u)
       >>>
       >>> size=[]
       >>> time=[]
@@ -73,7 +73,7 @@ def correlate(a1, a2=None, _normalize=True):
       >>>
       >>> # we need to subtract the average value
       >>> np.set_printoptions(precision=3,threshold=1000,suppress=True)
-      >>> corr = pytim.utilities.correlate(size-np.mean(size))
+      >>> corr = pywc.utilities.correlate(size-np.mean(size))
       >>> corr = corr/corr[0] # normalize to 1
       >>> print (corr)
       [ 1.     0.153  0.104  0.17   0.365  0.115  0.171  0.104  0.342  0.24
@@ -88,12 +88,12 @@ def correlate(a1, a2=None, _normalize=True):
 
           import numpy as np
           import MDAnalysis as mda
-          import pytim
-          from   pytim.datafiles import *
+          import pywc
+          from   pywc.datafiles import *
           from matplotlib import pyplot as plt
 
           u = mda.Universe(WATER_GRO,WATER_XTC)
-          inter = pytim.ITIM(u)
+          inter = pywc.ITIM(u)
 
           size=[]
           time=[]
@@ -101,7 +101,7 @@ def correlate(a1, a2=None, _normalize=True):
               time.append(ts.time)
               size.append(len(inter.layers[0,0]))
 
-          corr =  pytim.utilities.correlate(size-np.mean(size))
+          corr =  pywc.utilities.correlate(size-np.mean(size))
           plt.plot(time,corr/corr[0])
           plt.plot(time,[0]*len(time))
           plt.gca().set_xlabel("time/ps")

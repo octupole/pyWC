@@ -17,17 +17,17 @@ def _writepdb(interface,
 
     Tests:
 
-    >>> import pytim
+    >>> import pywc
     >>> import MDAnalysis as mda
     >>> import numpy as np
     >>> np.set_printoptions(precision=2)
     >>> print('micelle')
     micelle
-    >>> u = mda.Universe(pytim.datafiles.MICELLE_PDB)
+    >>> u = mda.Universe(pywc.datafiles.MICELLE_PDB)
     >>> print(u.atoms[0].position)
     [22.39 33.74 44.23]
     >>> g = u.select_atoms('resname DPC')
-    >>> inter = pytim.GITIM(u,group=g,symmetry='generic')
+    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='gitim.micelle.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)
@@ -39,11 +39,11 @@ def _writepdb(interface,
     >>>
     >>> print('water gitim generic')
     water gitim generic
-    >>> u = mda.Universe(pytim.datafiles.WATER_GRO)
+    >>> u = mda.Universe(pywc.datafiles.WATER_GRO)
     >>> print(u.atoms[0].position)
     [28.62  2.01 11.37]
     >>> g = u.select_atoms('name OW')
-    >>> inter = pytim.GITIM(u,group=g,symmetry='generic')
+    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='gitim.water.generic.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)
@@ -56,7 +56,7 @@ def _writepdb(interface,
     >>> print('water gitim planar')
     water gitim planar
     >>> g = u.select_atoms('name OW')
-    >>> inter = pytim.GITIM(u,group=g,symmetry='planar')
+    >>> inter = pywc.GITIM(u,group=g,symmetry='planar')
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='gitim.water.planar.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)
@@ -69,7 +69,7 @@ def _writepdb(interface,
     >>> print ('water itim')
     water itim
     >>> g = u.select_atoms('name OW')
-    >>> inter = pytim.ITIM(u,group=g)
+    >>> inter = pywc.ITIM(u,group=g)
     >>> for centering in ['no', 'middle', 'origin']:
     ... 	name='itim.water.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)

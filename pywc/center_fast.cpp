@@ -8,7 +8,7 @@
 
 /*
  * This module provides a fast C++ implementation of the centering algorithm
- * used in pytim's Interface._center() method. The bottleneck is the repeated
+ * used in pywc's Interface._center() method. The bottleneck is the repeated
  * histogram calculation in a tight loop.
  *
  * The centering algorithm iteratively shifts the system until the density
@@ -238,7 +238,7 @@ namespace
 
 PYBIND11_MODULE(center_fast, m)
 {
-    m.doc() = "Fast C++ implementation of pytim's centering algorithm";
+    m.doc() = "Fast C++ implementation of pywc's centering algorithm";
 
     m.def("center_fast", &center_fast,
           py::arg("pos_group"),

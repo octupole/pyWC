@@ -2,12 +2,12 @@
 """Diagnostic for real system centering."""
 
 import MDAnalysis as mda
-import pytim
+import pywc
 import time
 import sys
 
 # Check optimization status
-from pytim._center_impl import HAS_CENTER_FAST, HAS_CENTER_FULL
+from pywc._center_impl import HAS_CENTER_FAST, HAS_CENTER_FULL
 
 print("=" * 70)
 print("Real System Centering Diagnostic")
@@ -36,7 +36,7 @@ print("-" * 70)
 
 u.trajectory[0]  # Go to first frame
 start = time.perf_counter()
-inter = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
+inter = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
                               centered=True, enable_timing=True)
 elapsed = time.perf_counter() - start
 
@@ -56,18 +56,18 @@ print("\n" + "-" * 70)
 print("Testing with PYTHON fallback (forced)")
 print("-" * 70)
 
-from pytim import interface
+from pywc import interface
 original_center = interface.Interface._center
 
 def python_center_wrapper(group, direction, halfbox_shift=False):
-    from pytim._center_impl import _center_python
+    from pywc._center_impl import _center_python
     return _center_python(group, direction, halfbox_shift)
 
 interface.Interface._center = staticmethod(python_center_wrapper)
 
 u.trajectory[0]  # Reset
 start = time.perf_counter()
-inter_py = pytim.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
+inter_py = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.5,
                                  centered=True, enable_timing=True)
 elapsed_py = time.perf_counter() - start
 

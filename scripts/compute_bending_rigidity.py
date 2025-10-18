@@ -26,7 +26,7 @@ from typing import Dict, Iterable, Optional, Tuple
 
 import MDAnalysis as mda
 import numpy as np
-import pytim
+import pywc
 from skimage import measure
 
 
@@ -176,12 +176,12 @@ def resolve_selection(expr: str) -> str:
     return expr
 
 
-def reassign_surface(interface: pytim.WillardChandler, force: bool) -> None:
+def reassign_surface(interface: pywc.WillardChandler, force: bool) -> None:
     if force or not getattr(interface, "autoassign", True):
         interface._assign_layers()
 
 
-def build_surface_with_cutoff(interface: pytim.WillardChandler, cutoff: float) -> Optional[float]:
+def build_surface_with_cutoff(interface: pywc.WillardChandler, cutoff: float) -> Optional[float]:
     density_field = getattr(interface, "density_field", None)
     spacing = getattr(interface, "spacing", None)
     grid = getattr(interface, "ngrid", None)
@@ -197,7 +197,7 @@ def build_surface_with_cutoff(interface: pytim.WillardChandler, cutoff: float) -
     return cutoff
 
 
-def apply_density_level(interface: pytim.WillardChandler, level: float) -> Optional[float]:
+def apply_density_level(interface: pywc.WillardChandler, level: float) -> Optional[float]:
     density_field = getattr(interface, "density_field", None)
     spacing = getattr(interface, "spacing", None)
     grid = getattr(interface, "ngrid", None)
@@ -220,7 +220,7 @@ def apply_density_level(interface: pytim.WillardChandler, level: float) -> Optio
 
 
 def ensure_surface(
-    interface: pytim.WillardChandler,
+    interface: pywc.WillardChandler,
     *,
     force_reassign: bool,
     absolute_level: Optional[float],
@@ -457,8 +457,8 @@ def main(args: argparse.Namespace) -> None:
         raise ValueError("Leaflet assignment produced empty atom groups")
 
     wc_kwargs = dict(alpha=args.alpha, mesh=args.mesh, density_cutoff=args.force_density)
-    wc_a = pytim.WillardChandler(u, group=group_a, centered=True, autoassign=False, **wc_kwargs)
-    wc_b = pytim.WillardChandler(u, group=group_b, centered=True, autoassign=False, **wc_kwargs)
+    wc_a = pywc.WillardChandler(u, group=group_a, centered=True, autoassign=False, **wc_kwargs)
+    wc_b = pywc.WillardChandler(u, group=group_b, centered=True, autoassign=False, **wc_kwargs)
 
     grid_n = args.grid_size
     thickness_accum = np.zeros((grid_n, grid_n), dtype=float)

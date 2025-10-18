@@ -34,15 +34,15 @@ jobs:
           # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
           # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
       - run:
-          name: Install pytim
+          name: Install pywc
           command: pip install --upgrade -r requirements.txt -r requirements.testing.txt -e .
       - run:
           name: Run tests
-          command: pytest pytim/*py pytim/observables/*py pytim/datafiles/*py --doctest-modules
+          command: pytest pywc/*py pywc/observables/*py pywc/datafiles/*py --doctest-modules
           #  - run:
           #name: Coverage
           # # This assumes pytest is installed via the install-package step above
-          #command: py.test --cov=pytim pytim/*py pytim/observables/*py pytim/datafiles/*py 
+          #command: py.test --cov=pywc pywc/*py pywc/observables/*py pywc/datafiles/*py 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows

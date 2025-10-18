@@ -1,6 +1,6 @@
 # -*- Mode: python; tab-width: 4; indent-tabs-mode:nil; coding: utf-8 -*-
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
-""" Module: pytim.gaussian_kde_pbc
+""" Module: pywc.gaussian_kde_pbc
     ==============================
 """
 from __future__ import print_function

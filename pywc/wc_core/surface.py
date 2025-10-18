@@ -88,15 +88,15 @@ def compute_surface(pos: np.ndarray,
         from ..gaussian_kde_pbc import _wc_kde
         original_wc_kde = _wc_kde
         # Temporarily disable C++ extension
-        import pytim.gaussian_kde_pbc
-        pytim.gaussian_kde_pbc._wc_kde = None
+        import pywc.gaussian_kde_pbc
+        pywc.gaussian_kde_pbc._wc_kde = None
         try:
             kernel, _ = density_map(pos, grid, sigma, box)
             kernel.pos = pos.copy()
             density_field = kernel.evaluate_pbc_fast(grid)
         finally:
             # Restore C++ extension
-            pytim.gaussian_kde_pbc._wc_kde = original_wc_kde
+            pywc.gaussian_kde_pbc._wc_kde = original_wc_kde
     else:
         raise ValueError(f"Unknown backend: {backend}. Must be 'cpp', 'cupy'/'gpu', or 'python'.")
 

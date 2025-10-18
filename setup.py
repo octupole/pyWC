@@ -1,7 +1,6 @@
 # -*- Mode: python; tab-width: 4; indent-tabs-mode:nil; coding: utf-8 -*-
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
-"""A python based tool for interfacial molecules analysis
-"""
+"""pyWC: Willard–Chandler surface analysis toolkit"""
 
 # To use a consistent encoding
 import codecs
@@ -24,8 +23,8 @@ except ImportError as mod_error:
 from setuptools import setup
 from distutils.extension import Extension
 
-pytim_dbscan = Extension(
-    "pytim_dbscan", ["pytim/dbscan_inner.pyx"],
+pywc_dbscan = Extension(
+    "pywc_dbscan", ["pywc/dbscan_inner.pyx"],
     language="c++",
     include_dirs=[numpy.get_include()])
 
@@ -41,8 +40,8 @@ else:
     link_args += ["-fopenmp"]
 
 wc_kde = Extension(
-    "pytim._wc_kde",
-    ["pytim/_wc_kde.cpp"],
+    "pywc._wc_kde",
+    ["pywc/_wc_kde.cpp"],
     language="c++",
     include_dirs=[numpy.get_include(), pybind11.get_include()],
     extra_compile_args=compile_args,
@@ -50,8 +49,8 @@ wc_kde = Extension(
 )
 
 center_fast = Extension(
-    "pytim.center_fast",
-    ["pytim/center_fast.cpp"],
+    "pywc.center_fast",
+    ["pywc/center_fast.cpp"],
     language="c++",
     include_dirs=[numpy.get_include(), pybind11.get_include()],
     extra_compile_args=compile_args,
@@ -59,8 +58,8 @@ center_fast = Extension(
 )
 
 center_fast_full = Extension(
-    "pytim.center_fast_full",
-    ["pytim/center_fast_full.cpp"],
+    "pywc.center_fast_full",
+    ["pywc/center_fast_full.cpp"],
     language="c++",
     include_dirs=[numpy.get_include(), pybind11.get_include()],
     extra_compile_args=compile_args,
@@ -79,7 +78,7 @@ if sys.platform == 'darwin' and os.path.exists('/usr/bin/xcodebuild'):
 
 # Get version from the file version.py
 version = {}
-with open("pytim/version.py") as fp:
+with open("pywc/version.py") as fp:
     exec(fp.read(), version)
 
 BASE_DEPENDENCIES = [
@@ -112,7 +111,7 @@ def _cuda_available() -> bool:
 
 def _should_require_cupy() -> bool:
     """Determine whether CuPy should be auto-required."""
-    skip_flag = os.environ.get("PYTIM_SKIP_CUPY", "").lower()
+    skip_flag = os.environ.get("PYWC_SKIP_CUPY", "").lower()
     if skip_flag in {"1", "true", "yes"}:
         return False
     return _cuda_available()
@@ -120,14 +119,14 @@ def _should_require_cupy() -> bool:
 
 install_requires = BASE_DEPENDENCIES.copy()
 if _should_require_cupy():
-    cupy_pkg = os.environ.get("PYTIM_CUPY_PACKAGE")
+    cupy_pkg = os.environ.get("PYWC_CUPY_PACKAGE")
     gpu_requires = [cupy_pkg] if cupy_pkg else list(EXTRAS_REQUIRE["gpu"])
     EXTRAS_REQUIRE["gpu"] = gpu_requires
     install_requires.extend(gpu_requires)
 
 setup(
-    name='pytim',
-    ext_modules=[pytim_dbscan, wc_kde, center_fast, center_fast_full],
+    name='pywc',
+    ext_modules=[pywc_dbscan, wc_kde, center_fast, center_fast_full],
     cmdclass={
         'build_ext': build_ext,
     },
@@ -145,7 +144,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        'pytim': ['data/*'],
+        'pywc': ['data/*'],
     },
 
 )

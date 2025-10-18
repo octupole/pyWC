@@ -42,7 +42,7 @@ jobs:
      #   flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-         pytest --cov=pytim --cov-report=xml
+         pytest --cov=pywc --cov-report=xml
 
     - name: Regression benchmark (Willard-Chandler KDE)
       if: matrix.python-version == '3.10'
@@ -52,18 +52,18 @@ jobs:
     - name: Upload coverage reports to Codecov with GitHub Action
       uses: codecov/codecov-action@v5
          
-    - name: Clone pytim-notebooks
+    - name: Clone pywc-notebooks
       run: |
-        git clone https://github.com/Marcello-Sega/pytim-notebooks.git
+        git clone https://github.com/Marcello-Sega/pywc-notebooks.git
 
-    - name: Install dependencies for pytim-notebooks
+    - name: Install dependencies for pywc-notebooks
       run: |
-        cd pytim-notebooks
+        cd pywc-notebooks
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Test pytim-notebooks
+    - name: Test pywc-notebooks
       run: |
-        cd pytim-notebooks
+        cd pywc-notebooks
         IFS=$(echo -ne "\n\b") ; 
         for notebook in $(find . -name "*.ipynb"); do
           base=$(basename "$notebook" .ipynb)

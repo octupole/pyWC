@@ -1,7 +1,7 @@
 # -*- Mode: python; tab-width: 4; indent-tabs-mode:nil; coding: utf-8 -*-
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 """
-Minimal pytim namespace exposing the Willard–Chandler surface machinery.
+Minimal pyWC namespace exposing the Willard–Chandler surface machinery.
 """
 
 from .willard_chandler import WillardChandler

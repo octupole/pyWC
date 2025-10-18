@@ -6,8 +6,8 @@ where time is spent in the Willard-Chandler surface calculation.
 """
 
 import MDAnalysis as mda
-import pytim
-from pytim.datafiles import MICELLE_PDB
+import pywc
+from pywc.datafiles import MICELLE_PDB
 
 print("="*70)
 print("Willard-Chandler Detailed Timing Example")
@@ -20,7 +20,7 @@ print(f"\nLoaded system with {len(g)} atoms")
 
 # Create interface with timing enabled
 print("\n1. Creating WillardChandler with CPU backend and timing...")
-inter = pytim.WillardChandler(
+inter = pywc.WillardChandler(
     u,
     group=g,
     alpha=3.0,
@@ -56,7 +56,7 @@ if timings:
 # Example: Compare CPU vs GPU backends
 print("\n5. Comparing backends (if GPU available)...")
 try:
-    inter_comparison = pytim.WillardChandler(
+    inter_comparison = pywc.WillardChandler(
         u, group=g, alpha=3.0, mesh=2.0, enable_timing=True
     )
 
@@ -69,7 +69,7 @@ try:
     for backend in ['cpu', 'cupy']:
         if backend_results[backend]['success']:
             print(f"\n{backend.upper()} Backend Details:")
-            inter_temp = pytim.WillardChandler(
+            inter_temp = pywc.WillardChandler(
                 u, group=g, alpha=3.0, mesh=2.0,
                 surface_backend=backend,
                 enable_timing=True

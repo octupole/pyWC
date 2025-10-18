@@ -441,12 +441,12 @@ class Interface(object):
             Example: save the positions (centering the interface in the cell)
                      without appending
 
-            >>> import pytim
-            >>> import pytim.datafiles
+            >>> import pywc
+            >>> import pywc.datafiles
             >>> import MDAnalysis as mda
-            >>> from pytim.datafiles import WATER_GRO
+            >>> from pywc.datafiles import WATER_GRO
             >>> u = mda.Universe(WATER_GRO)
-            >>> interface = pytim.ITIM(u)
+            >>> interface = pywc.ITIM(u)
             >>> interface.writepdb('layers.pdb',multiframe=False)
 
             Example: save the positions without centering the interface. This
@@ -457,7 +457,7 @@ class Interface(object):
 
             >>> interface.writepdb('layers.pdb',centered='no')
 
-            Note that if :mod:`~pytim.gitim.GITIM` is used, and the
+            Note that if :mod:`~pywc.gitim.GITIM` is used, and the
             :obj:`symmetry` option is different from :obj:`planar`,
             the :obj:`centered='origin'` option is equivalent to
             :obj:`centered='middle'`.
@@ -479,40 +479,40 @@ class Interface(object):
         of the output is performed here.
 
         >>> # TEST:0 loading the module
-        >>> import pytim
-        >>> pytim.ITIM._() ; # coverage
+        >>> import pywc
+        >>> pywc.ITIM._() ; # coverage
 
         >>> # TEST:1 basic functionality
         >>> import MDAnalysis as mda
-        >>> import pytim
-        >>> from pytim.datafiles import *
+        >>> import pywc
+        >>> from pywc.datafiles import *
         >>> u = mda.Universe(WATER_GRO)
         >>> oxygens = u.select_atoms("name OW")
-        >>> interface = pytim.ITIM(u, alpha=1.5, max_layers=4)
+        >>> interface = pywc.ITIM(u, alpha=1.5, max_layers=4)
         >>> print (len(interface.layers[0,0]))
         786
         >>> del interface
-        >>> interface = pytim.ITIM(u, alpha=1.5, max_layers=4, multiproc=False)
+        >>> interface = pywc.ITIM(u, alpha=1.5, max_layers=4, multiproc=False)
         >>> print (len(interface.layers[0,0]))
         786
         >>> del interface
 
         >>> # TEST:2 basic functionality
         >>> u=None
-        >>> interface = pytim.GITIM(u)
+        >>> interface = pywc.GITIM(u)
         Traceback (most recent call last):
             ...
         Exception: Wrong Universe
 
 
-        >>> interface = pytim.ITIM(u)
+        >>> interface = pywc.ITIM(u)
         Traceback (most recent call last):
             ...
         Exception: Wrong Universe
 
         >>> # TEST:3 large probe sphere radius
         >>> u = mda.Universe(WATER_GRO)
-        >>> interface = pytim.ITIM(u, alpha=100000.0, max_layers=1,multiproc=False)
+        >>> interface = pywc.ITIM(u, alpha=100000.0, max_layers=1,multiproc=False)
         Traceback (most recent call last):
             ...
         ValueError: parameter alpha must be smaller than the smaller box side
@@ -520,28 +520,28 @@ class Interface(object):
         >>> # TEST:3b no surface atoms
         >>> u = mda.Universe(GLUCOSE_PDB)
         >>> g = u.select_atoms('type C or name OW')
-        >>> interface = pytim.GITIM(u,group=g, alpha=4.0)
+        >>> interface = pywc.GITIM(u,group=g, alpha=4.0)
         >>> print(interface.atoms)
         <AtomGroup []>
 
         >>> # TEST:4 interchangeability of Universe/AtomGroup
         >>> u = mda.Universe(WATER_GRO)
         >>> oxygens = u.select_atoms("name OW")
-        >>> interface = pytim.ITIM(u, alpha=1.5,group=oxygens, max_layers=1,multiproc=False,molecular=False)
+        >>> interface = pywc.ITIM(u, alpha=1.5,group=oxygens, max_layers=1,multiproc=False,molecular=False)
         >>> print (len(interface.layers[0,0]))
         262
-        >>> interface = pytim.ITIM(oxygens, alpha=1.5,max_layers=1,multiproc=False,molecular=False)
+        >>> interface = pywc.ITIM(oxygens, alpha=1.5,max_layers=1,multiproc=False,molecular=False)
         >>> print (len(interface.layers[0,0]))
         262
 
 
         >>> # PDB FILE FORMAT
         >>> import MDAnalysis as mda
-        >>> import pytim
-        >>> from pytim.datafiles import WATER_GRO
+        >>> import pywc
+        >>> from pywc.datafiles import WATER_GRO
         >>> u = mda.Universe(WATER_GRO)
         >>> oxygens = u.select_atoms("name OW")
-        >>> interface = pytim.ITIM(u, alpha=1.5, max_layers=4,molecular=True)
+        >>> interface = pywc.ITIM(u, alpha=1.5, max_layers=4,molecular=True)
         >>> interface.writepdb('test.pdb',centered=False)
         >>> PDB =open('test.pdb','r').readlines()
         >>> line = list(filter(lambda l: 'ATOM     19 ' in l, PDB))[0]
@@ -552,17 +552,17 @@ class Interface(object):
 
         >>> # correct behaviour of n_clusters option
         >>> import MDAnalysis as mda
-        >>> import pytim
-        >>> from pytim.datafiles import ANTAGONISTIC_GRO
+        >>> import pywc
+        >>> from pywc.datafiles import ANTAGONISTIC_GRO
         >>> u = mda.Universe(ANTAGONISTIC_GRO)
         >>> g = u.atoms.select_atoms('resname bph4')
         >>> # Define the interface, use all clusters
-        >>> inter = pytim.SASA( g, alpha=2.5, max_layers=2, cluster_cut=3.5, n_clusters=None , molecular=True)
+        >>> inter = pywc.SASA( g, alpha=2.5, max_layers=2, cluster_cut=3.5, n_clusters=None , molecular=True)
         >>> print(repr(inter.atoms))
         <AtomGroup with 2025 atoms>
 
         >>> # Again, using only the largest cluster
-        >>> inter = pytim.SASA( g, alpha=2.5, max_layers=2, cluster_cut=3.5, n_clusters=1, molecular=True)
+        >>> inter = pywc.SASA( g, alpha=2.5, max_layers=2, cluster_cut=3.5, n_clusters=1, molecular=True)
         >>> print(repr(inter.atoms))
         <AtomGroup with 855 atoms>
 
@@ -576,18 +576,18 @@ class Interface(object):
         ...     try:
         ...         import numpy as np
         ...         import MDAnalysis as mda
-        ...         import pytim
-        ...         from pytim.datafiles import WATER_GRO,WATER_XTC
-        ...         from pytim.datafiles import pytim_data,G43A1_TOP
+        ...         import pywc
+        ...         from pywc.datafiles import WATER_GRO,WATER_XTC
+        ...         from pywc.datafiles import pywc_data,G43A1_TOP
         ...         # MDAnalysis
         ...         u = mda.Universe(WATER_GRO,WATER_XTC)
-        ...         ref = pytim.ITIM(u)
+        ...         ref = pywc.ITIM(u)
         ...         # mdtraj
         ...         t = mdtraj.load_xtc(WATER_XTC,top=WATER_GRO)
         ...         # mdtraj manipulates the name of atoms, we need to set the
         ...         # radii by hand
-        ...         _dict = { 'O':pytim_data.vdwradii(G43A1_TOP)['OW'],'H':0.0}
-        ...         inter = pytim.ITIM(t, radii_dict=_dict)
+        ...         _dict = { 'O':pywc_data.vdwradii(G43A1_TOP)['OW'],'H':0.0}
+        ...         inter = pywc.ITIM(t, radii_dict=_dict)
         ...         ids_mda = []
         ...         ids_mdtraj = []
         ...         for ts in u.trajectory[0:2]:
@@ -610,29 +610,29 @@ class Interface(object):
         >>> # check that using the n_clusters option without setting cluster_cut
         >>> # throws a warning and resets to n_clusters == -1
         >>> import MDAnalysis as mda
-        >>> import pytim
-        >>> from   pytim.datafiles import GLUCOSE_PDB
+        >>> import pywc
+        >>> from   pywc.datafiles import GLUCOSE_PDB
         >>>
         >>> u = mda.Universe(GLUCOSE_PDB)
         >>> solvent = u.select_atoms('name OW')
-        >>> inter = pytim.GITIM(u, group=solvent, n_clusters=1)
+        >>> inter = pywc.GITIM(u, group=solvent, n_clusters=1)
         Warning: the options n_clusters and min_cluster_size have no effect without setting cluster_cut, ignoring them
 
         >>> print (inter.n_clusters)
         None
 
-        >>> import pytim
+        >>> import pywc
         >>> import pytest
         >>> import MDAnalysis as mda
-        >>> u = mda.Universe(pytim.datafiles.WATER_GRO)
+        >>> u = mda.Universe(pywc.datafiles.WATER_GRO)
         >>>
         >>> with pytest.raises(Exception):
-        ...     pytim.ITIM(u,alpha=-1.0)
+        ...     pywc.ITIM(u,alpha=-1.0)
 
         >>> with pytest.raises(Exception):
-        ...     pytim.ITIM(u,alpha=1000000)
+        ...     pywc.ITIM(u,alpha=1000000)
 
-        >>> pytim.ITIM(u,mesh=-1)
+        >>> pywc.ITIM(u,mesh=-1)
         Traceback (most recent call last):
         ...
         ValueError: parameter mesh must be positive
@@ -640,12 +640,12 @@ class Interface(object):
 
         >>> # check that it is possible to use two trajectories
         >>> import MDAnalysis as mda
-        >>> import pytim
-        >>> from pytim.datafiles import WATER_GRO, WATER_XTC
+        >>> import pywc
+        >>> from pywc.datafiles import WATER_GRO, WATER_XTC
         >>> u = mda.Universe(WATER_GRO,WATER_XTC)
         >>> u2 = mda.Universe(WATER_GRO,WATER_XTC)
-        >>> inter = pytim.ITIM(u,group=u.select_atoms('resname SOL'))
-        >>> inter2 = pytim.ITIM(u2,group=u2.select_atoms('resname SOL'))
+        >>> inter = pywc.ITIM(u,group=u.select_atoms('resname SOL'))
+        >>> inter2 = pywc.ITIM(u2,group=u2.select_atoms('resname SOL'))
         >>> for ts in u.trajectory[::50]:
         ...     ts2 = u2.trajectory[ts.frame]
 
@@ -661,12 +661,12 @@ class Interface(object):
 
         >>> # TEST:1, ITIM+GITIM, flat interface
         >>> import MDAnalysis as mda
-        >>> import pytim
+        >>> import pywc
         >>> import numpy as np
-        >>> from pytim.datafiles import WATER_GRO
-        >>> pytim.ITIM.__() ; # coverage
+        >>> from pywc.datafiles import WATER_GRO
+        >>> pywc.ITIM.__() ; # coverage
         >>>
-        >>> for method in [pytim.ITIM , pytim.GITIM] :
+        >>> for method in [pywc.ITIM , pywc.GITIM] :
         ...     u = mda.Universe(WATER_GRO)
         ...     positions = np.copy(u.atoms.positions)
         ...     oxygens = u.select_atoms('name OW')
@@ -699,11 +699,11 @@ class Interface(object):
 
         >>> # TEST:2, GITIM, micelle
         >>> import MDAnalysis as mda
-        >>> import pytim
+        >>> import pywc
         >>> import numpy as np
-        >>> from pytim.datafiles import MICELLE_PDB
+        >>> from pywc.datafiles import MICELLE_PDB
         >>>
-        >>> for method in [pytim.GITIM] :
+        >>> for method in [pywc.GITIM] :
         ...     u = mda.Universe(MICELLE_PDB)
         ...     positions = np.copy(u.atoms.positions)
         ...     DPC = u.select_atoms('resname DPC')

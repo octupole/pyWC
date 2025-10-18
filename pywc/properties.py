@@ -90,7 +90,7 @@ def _extra_attributes(interface, universe):
 
 
 def _check_missing_attribute(interface, name, classname, group, value):
-    """ Add an attribute, which is necessary for pytim but
+    """ Add an attribute, which is necessary for pywc but
         missing from the present topology.
 
         An example of how the code below would expand is:
