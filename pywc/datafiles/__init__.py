@@ -6,8 +6,16 @@ Datafiles module for pyWC test data.
 Provides paths to test trajectories and structures for examples and testing.
 """
 
+from __future__ import print_function
 import os
 import re
+
+# Resource loader for data files
+try:
+    from importlib.resources import files
+    def resource(path, fname): return str(files(path)/fname)
+except:
+    from pkg_resources import resource_filename as resource
 
 # Get the data directory path
 _data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
@@ -116,6 +124,19 @@ class Data(object):
 # Instantiate the pywc_data object
 pywc_data = Data()
 
+# Topology files for VDW radii extraction
+G43A1_TOP = resource('pywc', 'data/ffg43a1.nonbonded.itp')
+pywc_data.add('G43A1_TOP', 'topol', 'GMX', 'GROMOS 43A1 topology for GROMACS')
+
+AMBER03_TOP = resource('pywc', 'data/ffamber03.nonbonded.itp')
+pywc_data.add('AMBER03_TOP', 'topol', 'GMX', 'AMBER 03 topology for GROMACS')
+
+CHARMM27_TOP = resource('pywc', 'data/ffcharmm27.nonbonded.itp')
+pywc_data.add('CHARMM27_TOP', 'topol', 'GMX', 'CHARMM 27 topology for GROMACS')
+
+# Clean up namespace
+del resource
+
 __all__ = [
     'NPT_RUN_TPR',
     'TRAJ_TEST_XTC',
@@ -123,5 +144,8 @@ __all__ = [
     'MICELLE_PDB',
     'WATER_GRO',
     'WATER_XTC',
+    'G43A1_TOP',
+    'AMBER03_TOP',
+    'CHARMM27_TOP',
     'pywc_data',
 ]
