@@ -1,0 +1,49 @@
+/* Custom CSS for pyWC documentation */
+
+/* Improve code block appearance */
+.highlight {
+    border-radius: 4px;
+}
+
+/* Better table styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table th {
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+}
+
+/* Admonition styling */
+.admonition {
+    border-radius: 4px;
+}
+
+/* Link colors */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Performance table styling */
+.performance-table {
+    font-size: 0.9em;
+}
+
+.performance-table th {
+    text-align: center;
+}
+
+.performance-table td {
+    text-align: right;
+}
+
+/* Code annotation improvements */
+.md-annotation {
+    font-size: 0.85em;
+}

@@ -1,0 +1,12 @@
+# Documentation build requirements for pyWC
+
+# MkDocs and Material theme
+mkdocs>=1.5.3
+mkdocs-material>=9.5.3
+mkdocs-minify-plugin>=0.7.1
+
+# Markdown extensions
+pymdown-extensions>=10.5
+
+# Additional plugins
+mkdocs-git-revision-date-localized-plugin>=1.2.2
