@@ -99,7 +99,7 @@ If you specifically used the GPU backend:
 
 ```bibtex
 @software{cupy,
-  author = {{CuPy Development Team}},
+  author = {% raw %}{{CuPy Development Team}}{% endraw %},
   title = {CuPy: NumPy \& SciPy for GPU},
   year = {2023},
   url = {https://cupy.dev/},
@@ -116,8 +116,8 @@ If using MDAnalysis for trajectory handling:
             Reddy, Tyler J. E. and Melo, Manuel N. and Seyler, Sean L. and
             Domański, Jan and Dotson, David L. and Buchoux, Sébastien and
             Kenney, Ian M. and Beckstein, Oliver},
-  title = {{MDAnalysis}: A Python Package for the Rapid Analysis of
-           Molecular Dynamics Simulations},
+  title = {% raw %}{{MDAnalysis}: A Python Package for the Rapid Analysis of
+           Molecular Dynamics Simulations}{% endraw %},
   journal = {Proceedings of the 15th Python in Science Conference},
   pages = {98-105},
   year = {2016},
