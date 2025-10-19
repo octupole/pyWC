@@ -70,16 +70,16 @@ class WillardChandler(Interface):
         >>> import pywc  # doctest: +SKIP
         >>> from pywc.datafiles import NPT_RUN_TPR, TRAJ_TEST_XTC, SELECTION_TXT  # doctest: +SKIP
         >>> import MDAnalysis as mda  # doctest: +SKIP
-        >>>  # doctest: +SKIP
-        >>> # Load trajectory  # doctest: +SKIP
+        >>>
+        >>> # Load trajectory
         >>> u = mda.Universe(NPT_RUN_TPR, TRAJ_TEST_XTC)  # doctest: +SKIP
-        >>>  # doctest: +SKIP
-        >>> # Load selection from file  # doctest: +SKIP
+        >>>
+        >>> # Load selection from file
         >>> with open(SELECTION_TXT) as f:  # doctest: +SKIP
         ...     selection = f.read().strip()  # doctest: +SKIP
         >>> g = u.select_atoms(selection)  # doctest: +SKIP
-        >>>  # doctest: +SKIP
-        >>> # Create WillardChandler surface  # doctest: +SKIP
+        >>>
+        >>> # Create WillardChandler surface
         >>> wc = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.5)  # doctest: +SKIP
         >>> print(f"Surface area: {wc.surface_area:.2f} Ų")  # doctest: +SKIP
         Surface area: 450.23 Ų  # doctest: +SKIP
