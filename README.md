@@ -218,9 +218,12 @@ Real-world membrane analysis using `compute_willard_chandler_area.py`:
 
 **What's measured:** Complete Willard-Chandler surface computation per frame, including:
 
-1. System centering and grid preparation (`prepare_box`)
-2. KDE density field evaluation (`define_cluster_group`) - **most compute-intensive step**
-3. Marching cubes isosurface extraction (`compute_surface`)
+1. System centering (`center`)
+2. Grid preparation (`prepare_box`)
+3. KDE density field evaluation (`define_cluster_group`)
+4. Marching cubes isosurface extraction and area calculation (`compute_surface`)
+
+**Performance bottleneck:** For pure Python backend, `compute_surface` dominates (97% of time). For optimized C++ and GPU backends, system `center` becomes the bottleneck (38-46% of time) since the surface computation is heavily accelerated.
 
 The timing is built into the script via `enable_timing=True` (see [compute_willard_chandler_area.py:364](scripts/compute_willard_chandler_area.py#L364)). Time reported is mean per-frame (excluding first 2 frames to remove initialization overhead).
 

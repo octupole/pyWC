@@ -307,9 +307,14 @@ For a 105,000 atom GOLO/GOLH membrane system:
 
 The timing captures the complete Willard-Chandler surface computation per frame, including:
 
-1. **`prepare_box()`**: System centering and density field grid preparation
-2. **`define_cluster_group()`**: KDE computation - evaluating Gaussian kernels at all grid points
-3. **`compute_surface()`**: Marching cubes isosurface extraction and area calculation
+1. **`center()`**: System centering in the unit cell
+2. **`prepare_box()`**: Density field grid preparation
+3. **`define_cluster_group()`**: KDE computation - evaluating Gaussian kernels at all grid points
+4. **`compute_surface()`**: Marching cubes isosurface extraction and area calculation
+
+**Performance bottleneck varies by backend:**
+- **Python backend**: `compute_surface` dominates (~97% of time) - the marching cubes and KDE steps are slow
+- **C++ and GPU backends**: `center` becomes the bottleneck (~38-46% of time) - surface computation is heavily accelerated, so centering dominates
 
 These timings are automatically collected by the script when using the built-in timing system:
 
