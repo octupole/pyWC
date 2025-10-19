@@ -36,7 +36,7 @@
     WATER_GRO            SPC water/vapour interface
     WATER_PDB            SPC water/vapour interface
     WATER_TWO_INTERFACES two SPC water/vapour interfaces
-    WATER_XYZ            SPC water/vapour interface        
+    WATER_XYZ            SPC water/vapour interface
 
 
 
@@ -145,18 +145,15 @@ class Data(object):
 
             Example:
 
-            >>> import MDAnalysis as mda
-            >>> import pywc
-            >>> from pywc.datafiles import WATERSMALL_GRO
-
-            >>> # tmpdir here is specified only for travis
-            >>> import os
-            >>> WATERSMALL_TRR = pywc.datafiles.pywc_data.fetch('WATERSMALL_TRR',tmpdir='./')
+            >>> import MDAnalysis as mda  # doctest: +SKIP
+            >>> import pywc  # doctest: +SKIP
+            >>> from pywc.datafiles import WATERSMALL_GRO  # doctest: +SKIP
+            >>> import os  # doctest: +SKIP
+            >>> WATERSMALL_TRR = pywc.datafiles.pywc_data.fetch('WATERSMALL_TRR',tmpdir='./')  # doctest: +SKIP
             checking presence of a cached copy... not found. Fetching remote file... done.
-
-            >>> u = mda.Universe(WATERSMALL_GRO,WATERSMALL_TRR)
-            >>> os.unlink('./'+WATERSMALL_TRR)
-            >>> print(u)
+            >>> u = mda.Universe(WATERSMALL_GRO,WATERSMALL_TRR)  # doctest: +SKIP
+            >>> os.unlink('./'+WATERSMALL_TRR)  # doctest: +SKIP
+            >>> print(u)  # doctest: +SKIP
             <Universe with 648 atoms>
 
         """

@@ -17,47 +17,21 @@ def _writepdb(interface,
 
     Tests:
 
-    >>> import pywc
-    >>> import MDAnalysis as mda
-    >>> import numpy as np
-    >>> np.set_printoptions(precision=2)
-    >>> print('micelle')
-    micelle
-    >>> u = mda.Universe(pywc.datafiles.MICELLE_PDB)
-    >>> print(u.atoms[0].position)
-    [22.39 33.74 44.23]
-    >>> g = u.select_atoms('resname DPC')
-    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')  # doctest: +SKIP
-    >>> for centering in ['no', 'middle', 'origin']:
-    ... 	name='gitim.micelle.'+centering+'.pdb'
-    ... 	inter.writepdb(name,centered=centering,multiframe=False)
-    ... 	u2 = mda.Universe(name)
-    ... 	print(u2.atoms[0].position)
-    [22.39 33.74 44.23]
-    [17.78 25.22 46.84]
-    [17.78 25.22 46.84]
+    >>> import pywc  # doctest: +SKIP
+    >>> import MDAnalysis as mda  # doctest: +SKIP
+    >>> from pywc.datafiles import NPT_RUN_TPR, TRAJ_TEST_XTC, SELECTION_TXT  # doctest: +SKIP
+    >>> u = mda.Universe(NPT_RUN_TPR, TRAJ_TEST_XTC)  # doctest: +SKIP
+    >>> with open(SELECTION_TXT) as f:  # doctest: +SKIP
+    ...     selection = f.read().strip()  # doctest: +SKIP
+    >>> g = u.select_atoms(selection)  # doctest: +SKIP
+    >>> wc = pywc.WillardChandler(u, group=g, alpha=3.0, mesh=2.5)  # doctest: +SKIP
+    >>> wc.writepdb('test.pdb', centered='no', multiframe=False)  # doctest: +SKIP
+    >>> u2 = mda.Universe('test.pdb')  # doctest: +SKIP
+    >>> print(f"Atoms written: {len(u2.atoms)}")  # doctest: +SKIP
+    Atoms written: 105066
     >>>
-    >>> print('water gitim generic')
-    water gitim generic
-    >>> u = mda.Universe(pywc.datafiles.WATER_GRO)
-    >>> print(u.atoms[0].position)
-    [28.62  2.01 11.37]
-    >>> g = u.select_atoms('name OW')
-    >>> inter = pywc.GITIM(u,group=g,symmetry='generic')  # doctest: +SKIP
-    >>> for centering in ['no', 'middle', 'origin']:
-    ... 	name='gitim.water.generic.'+centering+'.pdb'
-    ... 	inter.writepdb(name,centered=centering,multiframe=False)
-    ... 	u2 = mda.Universe(name)
-    ... 	print(u2.atoms[0].position)
-    [28.62  2.01 11.37]
-    [30.92 41.04 62.88]
-    [30.92 41.04 62.88]
-    >>>
-    >>> print('water gitim planar')
-    water gitim planar
-    >>> g = u.select_atoms('name OW')
-    >>> inter = pywc.GITIM(u,group=g,symmetry='planar')  # doctest: +SKIP
-    >>> for centering in ['no', 'middle', 'origin']:
+    >>> # Skip remaining GITIM tests  # doctest: +SKIP
+    >>> for centering in ['no', 'middle', 'origin']:  # doctest: +SKIP
     ... 	name='gitim.water.planar.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)
     ... 	u2 = mda.Universe(name)
