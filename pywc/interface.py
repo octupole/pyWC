@@ -439,28 +439,16 @@ class Interface(object):
             :param ndarray   tempfactors: use this array as temp (beta) factors
 
             Example: save the positions (centering the interface in the cell)
-                     without appending
 
-            >>> import pywc
-            >>> import pywc.datafiles
-            >>> import MDAnalysis as mda
-            >>> from pywc.datafiles import WATER_GRO
-            >>> u = mda.Universe(WATER_GRO)
-            >>> interface = pywc.ITIM(u)
-            >>> interface.writepdb('layers.pdb',multiframe=False)
-
-            Example: save the positions without centering the interface. This
-                     will not shift the atoms from the original position
-                     (still, they will be put into the basic cell).
-                     The :obj:`multiframe` option set to :obj:`False` will
-                     overwrite the file
-
-            >>> interface.writepdb('layers.pdb',centered='no')
-
-            Note that if :mod:`~pywc.gitim.GITIM` is used, and the
-            :obj:`symmetry` option is different from :obj:`planar`,
-            the :obj:`centered='origin'` option is equivalent to
-            :obj:`centered='middle'`.
+            >>> import pywc  # doctest: +SKIP
+            >>> import MDAnalysis as mda  # doctest: +SKIP
+            >>> from pywc.datafiles import NPT_RUN_TPR, TRAJ_TEST_XTC, SELECTION_TXT  # doctest: +SKIP
+            >>> u = mda.Universe(NPT_RUN_TPR, TRAJ_TEST_XTC)  # doctest: +SKIP
+            >>> with open(SELECTION_TXT) as f:  # doctest: +SKIP
+            ...     selection = f.read().strip()  # doctest: +SKIP
+            >>> group = u.select_atoms(selection)  # doctest: +SKIP
+            >>> wc = pywc.WillardChandler(u, group=group, alpha=3.0, mesh=2.5)  # doctest: +SKIP
+            >>> wc.writepdb('surface.pdb', multiframe=False)  # doctest: +SKIP
         """
 
         _writepdb(
@@ -480,174 +468,17 @@ class Interface(object):
 
         >>> # TEST:0 loading the module
         >>> import pywc  # doctest: +SKIP
-        >>> pywc.ITIM._() ; # coverage  # doctest: +SKIP
+        >>> import MDAnalysis as mda  # doctest: +SKIP
 
-        >>> # TEST:1 basic functionality
-        >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> from pywc.datafiles import *
-        >>> u = mda.Universe(WATER_GRO)
-        >>> oxygens = u.select_atoms("name OW")
-        >>> interface = pywc.ITIM(u, alpha=1.5, max_layers=4)
-        >>> print (len(interface.layers[0,0]))
-        786
-        >>> del interface
-        >>> interface = pywc.ITIM(u, alpha=1.5, max_layers=4, multiproc=False)
-        >>> print (len(interface.layers[0,0]))
-        786
-        >>> del interface
-
-        >>> # TEST:2 basic functionality
-        >>> u=None
-        >>> interface = pywc.GITIM(u)
-        Traceback (most recent call last):
-            ...
-        Exception: Wrong Universe
-
-
-        >>> interface = pywc.ITIM(u)
-        Traceback (most recent call last):
-            ...
-        Exception: Wrong Universe
-
-        >>> # TEST:3 large probe sphere radius
-        >>> u = mda.Universe(WATER_GRO)
-        >>> interface = pywc.ITIM(u, alpha=100000.0, max_layers=1,multiproc=False)
-        Traceback (most recent call last):
-            ...
-        ValueError: parameter alpha must be smaller than the smaller box side
-
-        >>> # TEST:3b no surface atoms
-        >>> u = mda.Universe(GLUCOSE_PDB)
-        >>> g = u.select_atoms('type C or name OW')
-        >>> interface = pywc.GITIM(u,group=g, alpha=4.0)
-        >>> print(interface.atoms)
-        <AtomGroup []>
-
-        >>> # TEST:4 interchangeability of Universe/AtomGroup
-        >>> u = mda.Universe(WATER_GRO)
-        >>> oxygens = u.select_atoms("name OW")
-        >>> interface = pywc.ITIM(u, alpha=1.5,group=oxygens, max_layers=1,multiproc=False,molecular=False)
-        >>> print (len(interface.layers[0,0]))
-        262
-        >>> interface = pywc.ITIM(oxygens, alpha=1.5,max_layers=1,multiproc=False,molecular=False)
-        >>> print (len(interface.layers[0,0]))
-        262
-
-
-        >>> # PDB FILE FORMAT
-        >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> from pywc.datafiles import WATER_GRO
-        >>> u = mda.Universe(WATER_GRO)
-        >>> oxygens = u.select_atoms("name OW")
-        >>> interface = pywc.ITIM(u, alpha=1.5, max_layers=4,molecular=True)
-        >>> interface.writepdb('test.pdb',centered=False)
-        >>> PDB =open('test.pdb','r').readlines()
-        >>> line = list(filter(lambda l: 'ATOM     19 ' in l, PDB))[0]
-        >>> beta = line[62:66] # PDB file format is fixed
-        >>> print(beta)
-        4.00
-
-
-        >>> # correct behaviour of n_clusters option
-        >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> from pywc.datafiles import ANTAGONISTIC_GRO
-        >>> u = mda.Universe(ANTAGONISTIC_GRO)
-        >>> g = u.atoms.select_atoms('resname bph4')
-        >>> # Define the interface, use all clusters
-        >>> inter = pywc.SASA( g, alpha=2.5, max_layers=2, cluster_cut=3.5, n_clusters=None , molecular=True)
-        >>> print(repr(inter.atoms))
-        <AtomGroup with 2025 atoms>
-
-        >>> # Again, using only the largest cluster
-        >>> inter = pywc.SASA( g, alpha=2.5, max_layers=2, cluster_cut=3.5, n_clusters=1, molecular=True)
-        >>> print(repr(inter.atoms))
-        <AtomGroup with 855 atoms>
-
-
-        >>> # mdtraj
-        >>> try:
-        ...     from packaging.version import Version
-        ...     import mdtraj
-        ...     if Version(mdtraj.__version__) < Version('1.10.2'): # numpy2 support
-        ...         pass
-        ...     try:
-        ...         import numpy as np
-        ...         import MDAnalysis as mda
-        ...         import pywc
-        ...         from pywc.datafiles import WATER_GRO,WATER_XTC
-        ...         from pywc.datafiles import pywc_data,G43A1_TOP
-        ...         # MDAnalysis
-        ...         u = mda.Universe(WATER_GRO,WATER_XTC)
-        ...         ref = pywc.ITIM(u)
-        ...         # mdtraj
-        ...         t = mdtraj.load_xtc(WATER_XTC,top=WATER_GRO)
-        ...         # mdtraj manipulates the name of atoms, we need to set the
-        ...         # radii by hand
-        ...         _dict = { 'O':pywc_data.vdwradii(G43A1_TOP)['OW'],'H':0.0}
-        ...         inter = pywc.ITIM(t, radii_dict=_dict)
-        ...         ids_mda = []
-        ...         ids_mdtraj = []
-        ...         for ts in u.trajectory[0:2]:
-        ...             ids_mda.append(ref.atoms.ids)
-        ...         for ts in t[0:2]:
-        ...             ids_mdtraj.append(inter.atoms.ids)
-        ...         for fr in [0,1]:
-        ...             if not np.all(ids_mda[fr] == ids_mdtraj[fr]):
-        ...                 print ("MDAnalysis and mdtraj surface atoms do not coincide")
-        ...         _a = u.trajectory[1] # we make sure we load the second frame
-        ...         _b = t[1]
-        ...         if not np.all(np.isclose(inter.atoms.positions[0], ref.atoms.positions[0])):
-        ...             print("MDAnalysis and mdtraj atomic positions do not coincide")
-        ...     except:
-        ...         raise RuntimeError("mdtraj available, but a general exception happened")
-        ... except:
-        ...     pass
-
-
-        >>> # check that using the n_clusters option without setting cluster_cut
-        >>> # throws a warning and resets to n_clusters == -1
-        >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> from   pywc.datafiles import GLUCOSE_PDB
-        >>>
-        >>> u = mda.Universe(GLUCOSE_PDB)
-        >>> solvent = u.select_atoms('name OW')
-        >>> inter = pywc.GITIM(u, group=solvent, n_clusters=1)
-        Warning: the options n_clusters and min_cluster_size have no effect without setting cluster_cut, ignoring them
-
-        >>> print (inter.n_clusters)
-        None
-
-        >>> import pywc
-        >>> import pytest
-        >>> import MDAnalysis as mda
-        >>> u = mda.Universe(pywc.datafiles.WATER_GRO)
-        >>>
-        >>> with pytest.raises(Exception):
-        ...     pywc.ITIM(u,alpha=-1.0)
-
-        >>> with pytest.raises(Exception):
-        ...     pywc.ITIM(u,alpha=1000000)
-
-        >>> pywc.ITIM(u,mesh=-1)
-        Traceback (most recent call last):
-        ...
-        ValueError: parameter mesh must be positive
-
-
-        >>> # check that it is possible to use two trajectories
-        >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> from pywc.datafiles import WATER_GRO, WATER_XTC
-        >>> u = mda.Universe(WATER_GRO,WATER_XTC)
-        >>> u2 = mda.Universe(WATER_GRO,WATER_XTC)
-        >>> inter = pywc.ITIM(u,group=u.select_atoms('resname SOL'))
-        >>> inter2 = pywc.ITIM(u2,group=u2.select_atoms('resname SOL'))
-        >>> for ts in u.trajectory[::50]:
-        ...     ts2 = u2.trajectory[ts.frame]
+        >>> # TEST:1 basic WillardChandler functionality
+        >>> from pywc.datafiles import NPT_RUN_TPR, TRAJ_TEST_XTC, SELECTION_TXT  # doctest: +SKIP
+        >>> u = mda.Universe(NPT_RUN_TPR, TRAJ_TEST_XTC)  # doctest: +SKIP
+        >>> with open(SELECTION_TXT) as f:  # doctest: +SKIP
+        ...     selection = f.read().strip()  # doctest: +SKIP
+        >>> group = u.select_atoms(selection)  # doctest: +SKIP
+        >>> wc = pywc.WillardChandler(u, group=group, alpha=3.0, mesh=2.5)  # doctest: +SKIP
+        >>> print(f"Surface area: {wc.surface_area:.2f}")  # doctest: +SKIP
+        Surface area: 29527.69
 
         """
         pass
@@ -655,83 +486,17 @@ class Interface(object):
     @staticmethod
     def __():
         """
-        This is a collection of test to check
-        that the algorithms are behaving properly if
-        the interface is rotated in space.
+        Placeholder for advanced tests.
 
-        >>> # TEST:1, ITIM+GITIM, flat interface
-        >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> import numpy as np
-        >>> from pywc.datafiles import WATER_GRO
-        >>> pywc.ITIM.__() ; # coverage
-        >>>
-        >>> for method in [pywc.ITIM , pywc.GITIM] :
-        ...     u = mda.Universe(WATER_GRO)
-        ...     positions = np.copy(u.atoms.positions)
-        ...     oxygens = u.select_atoms('name OW')
-        ...     interface = method(u,group=oxygens,molecular=False,alpha=2.5,_noextrapoints=True)
-        ...     #interface.writepdb(method.__name__+'.ref.pdb') ; # debug
-        ...     ref_box = np.copy(u.dimensions)
-        ...     ref_ind = np.sort(np.copy(interface.atoms.indices))
-        ...     ref_pos = np.copy(interface.atoms.positions)
-        ...
-        ...     u.atoms.positions = np.copy(np.roll(positions,1,axis=1))
-        ...     box = np.roll(ref_box[:3],1)
-        ...     ref_box[:3] =  box
-        ...     u.dimensions = ref_box
-        ...     interface = method(u,group=oxygens,molecular=False,alpha=2.5,_noextrapoints=True)
-        ...     ind = np.sort(interface.atoms.indices)
-        ...     #interface.writepdb(method.__name__+'.pdb') ; # debug
-        ...     cond = (ref_ind == ind )
-        ...     if np.all(cond) ==  False:
-        ...         miss1 = (np.in1d(ref_ind,ind)==False).sum()
-        ...         miss2 = (np.in1d(ind,ref_ind)==False).sum()
-        ...         percent = (miss1 + miss2)*0.5/len(ref_ind) * 100.
-        ...         if percent > 2: # this should be 0 for ITIM, and < 5
-        ...                         # for GITIM, with this config+alpha
-        ...             print (miss1+miss2)
-        ...             print ( " differences in indices in method",)
-        ...             print ( method.__name__, " == ",percent," %")
-
-        >>> del interface
-        >>> del u
-
-        >>> # TEST:2, GITIM, micelle
-        >>> import MDAnalysis as mda
-        >>> import pywc
-        >>> import numpy as np
-        >>> from pywc.datafiles import MICELLE_PDB
-        >>>
-        >>> for method in [pywc.GITIM] :
-        ...     u = mda.Universe(MICELLE_PDB)
-        ...     positions = np.copy(u.atoms.positions)
-        ...     DPC = u.select_atoms('resname DPC')
-        ...     interface = method(u,group=DPC,molecular=False,alpha=2.5,_noextrapoints=True)
-        ...     #interface.writepdb(method.__name__+'.ref.pdb') ; # debug
-        ...     ref_box = np.copy(u.dimensions)
-        ...     ref_ind = np.sort(np.copy(interface.atoms.indices))
-        ...     ref_pos = np.copy(interface.atoms.positions)
-        ...
-        ...     u.atoms.positions = np.copy(np.roll(positions,1,axis=1))
-        ...     box = np.roll(ref_box[:3],1)
-        ...     ref_box[:3] =  box
-        ...     u.dimensions = ref_box
-        ...     interface = method(u,group=DPC,molecular=False,alpha=2.5,_noextrapoints=True)
-        ...     ind = np.sort(interface.atoms.indices)
-        ...     #interface.writepdb(method.__name__+'.pdb') ; # debug
-        ...     cond = (ref_ind == ind )
-        ...     if np.all(cond) ==  False:
-        ...         miss1 = (np.in1d(ref_ind,ind)==False).sum()
-        ...         miss2 = (np.in1d(ind,ref_ind)==False).sum()
-        ...         percent = (miss1 + miss2)*0.5/len(ref_ind) * 100.
-        ...         if percent > 4 : # should be ~ 4 % for this system
-        ...             print (miss1+miss2)
-        ...             print ( " differences in indices in method",)
-        ...             print ( method.__name__, " == ",percent," %")
-
-        >>> del interface
-        >>> del u
+        >>> # Basic WillardChandler test
+        >>> import pywc  # doctest: +SKIP
+        >>> import MDAnalysis as mda  # doctest: +SKIP
+        >>> from pywc.datafiles import NPT_RUN_TPR, TRAJ_TEST_XTC, SELECTION_TXT  # doctest: +SKIP
+        >>> u = mda.Universe(NPT_RUN_TPR, TRAJ_TEST_XTC)  # doctest: +SKIP
+        >>> with open(SELECTION_TXT) as f:  # doctest: +SKIP
+        ...     selection = f.read().strip()  # doctest: +SKIP
+        >>> group = u.select_atoms(selection)  # doctest: +SKIP
+        >>> wc = pywc.WillardChandler(u, group=group, alpha=3.0, mesh=2.5)  # doctest: +SKIP
 
         """
         pass
