@@ -212,14 +212,17 @@ pywc-bending-rigidity -h
 
 ## Performance Benchmarks
 
-| System Size | Backend | Time (s) | Speedup |
-|-------------|---------|----------|---------|
-| 1,000 atoms | Python  | 2.45     | 1x      |
-| 1,000 atoms | C++     | 0.12     | 20x     |
-| 10,000 atoms| C++     | 1.85     | -       |
-| 10,000 atoms| GPU     | 0.32     | 5.8x    |
+Real-world membrane analysis using `compute_willard_chandler_area.py`:
 
-*Benchmarks on AMD Ryzen 5950X (C++) and NVIDIA RTX 3090 (GPU)*
+| System | Atoms | Backend | Time (ms) | Speedup vs Python |
+|--------|-------|---------|-----------|-------------------|
+| GOLO/GOLH interdigitated membrane | 105,000 | Python | 427 | 1.0x |
+| GOLO/GOLH interdigitated membrane | 105,000 | C++ (cpu) | 25 | **17.1x** |
+| GOLO/GOLH interdigitated membrane | 105,000 | GPU (cupy) | 20 | **21.4x** |
+
+*Benchmarks measured with the `pywc-wc-area` command-line tool on a large biological membrane system (α=3.0 Å, mesh=2.5 Å)*
+
+**Key insight**: The C++ backend provides ~17x speedup for production membrane analysis, while GPU provides ~21x speedup for large systems.
 
 ## Use Cases
 
