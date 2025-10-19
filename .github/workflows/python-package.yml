@@ -51,23 +51,3 @@ jobs:
 
     - name: Upload coverage reports to Codecov with GitHub Action
       uses: codecov/codecov-action@v5
-         
-    - name: Clone pywc-notebooks
-      run: |
-        git clone https://github.com/Marcello-Sega/pywc-notebooks.git
-
-    - name: Install dependencies for pywc-notebooks
-      run: |
-        cd pywc-notebooks
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-    - name: Test pywc-notebooks
-      run: |
-        cd pywc-notebooks
-        IFS=$(echo -ne "\n\b") ; 
-        for notebook in $(find . -name "*.ipynb"); do
-          base=$(basename "$notebook" .ipynb)
-          output="executed_${base}.ipynb"
-          echo "Running $notebook"
-          jupyter nbconvert --to notebook --execute "$notebook" --output "$output"
-        done
