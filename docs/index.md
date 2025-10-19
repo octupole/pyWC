@@ -1,4 +1,4 @@
-# pyWC: Willard-Chandler Surface Analysis Toolkit
+# pyWC: Membrane Interface Analysis Toolkit
 
 <div align="center">
 
@@ -8,16 +8,25 @@
 
 </div>
 
-**pyWC** is a high-performance Python toolkit for computing and analyzing **Willard-Chandler intrinsic density surfaces** from molecular dynamics simulations.
+**pyWC** is a high-performance Python toolkit for **analyzing membrane interfaces** in molecular dynamics simulations using the Willard-Chandler method. It computes intrinsic density surfaces, enabling quantitative analysis of **membrane surfaces**, **thickness profiles**, and **bending rigidity**.
 
-## About This Project
+## Main Contributions
 
-This package is a **specialized fork** of [pytim](https://github.com/Marcello-Sega/pytim) by Marcello Sega and collaborators, focusing exclusively on the Willard-Chandler method with significant performance improvements:
+### 1. Command-Line Tools
+Ready-to-use scripts in `./scripts/` for membrane analysis:
 
-- **~35x faster** KDE evaluation through optimized C++ implementation
-- **GPU acceleration** via CuPy for large systems (>10k atoms)
-- **10-20x faster** system centering with OpenMP parallelization
-- **Streamlined codebase** by removing unused modules
+- **`pywc-wc-area`**: Compute surface area over trajectories
+- **`pywc-wc-thickness`**: Calculate membrane thickness profiles
+- **`pywc-bending-rigidity`**: Estimate bending modulus from fluctuations
+- **`pywc-compare-wc-backends`**: Benchmark computational backends
+
+### 2. Performance Optimizations
+Significant improvements over the original pytim implementation:
+
+- **~35x faster** KDE evaluation through optimized C++ with OpenMP
+- **GPU acceleration** via CuPy for large membrane systems (>10k atoms)
+- **10-20x faster** system centering with parallel algorithms
+- **Efficient memory management** for trajectory processing
 
 !!! info "Upstream Project"
     - **Original:** [Marcello-Sega/pytim](https://github.com/Marcello-Sega/pytim)
@@ -25,11 +34,13 @@ This package is a **specialized fork** of [pytim](https://github.com/Marcello-Se
 
 ## Scientific Background
 
-The Willard-Chandler method identifies intrinsic molecular surfaces by:
+The Willard-Chandler method identifies **intrinsic membrane surfaces** by:
 
-1. Computing a smooth density field via Gaussian kernel density estimation
+1. Computing a smooth density field from membrane atoms via Gaussian kernel density estimation
 2. Extracting the isosurface at critical density using marching cubes
-3. Providing a triangulated surface representation for analysis
+3. Providing a triangulated surface representation for geometric and mechanical analysis
+
+This is particularly powerful for **biological membranes** where thermal fluctuations create complex surfaces and local thickness variations encode mechanical properties.
 
 !!! quote "Reference"
     Willard, A. P., & Chandler, D. (2010). *Instantaneous liquid interfaces.* The Journal of Physical Chemistry B, 114(5), 1954-1958. [DOI: 10.1021/jp909219k](https://doi.org/10.1021/jp909219k)
@@ -37,16 +48,17 @@ The Willard-Chandler method identifies intrinsic molecular surfaces by:
 ## Key Features
 
 ### Multi-Backend Performance
-- **CPU (C++)**: OpenMP-parallelized pybind11 extensions (~35x speedup)
-- **GPU (CUDA)**: CuPy implementation with custom CUDA kernels
-- **Python**: Pure NumPy/SciPy fallback for testing
+- **CPU (C++)**: OpenMP-parallelized pybind11 extensions
+- **GPU (CUDA)**: CuPy implementation for large membranes
+- **Python**: NumPy/SciPy fallback
 
-### Core Capabilities
-- ✓ Compute intrinsic density fields on structured 3D grids
-- ✓ Extract triangulated surfaces via marching cubes
-- ✓ Calculate surface area, bending rigidity, and thickness profiles
-- ✓ Process entire MD trajectories with frame-to-frame continuity
-- ✓ Accurate periodic boundary condition handling
+### Membrane Analysis Capabilities
+- ✓ **Surface extraction**: Intrinsic membrane surfaces from lipid density
+- ✓ **Thickness profiles**: Local membrane thickness with spatial resolution
+- ✓ **Surface area**: Track area changes during transitions or pore formation
+- ✓ **Bending rigidity**: Estimate mechanical properties from undulation spectra
+- ✓ **Trajectory processing**: Analyze MD simulations with continuity
+- ✓ **Periodic boundaries**: Accurate handling of membrane systems
 
 ### Output Formats
 - **VTK**: For visualization in ParaView, VMD

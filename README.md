@@ -1,28 +1,54 @@
-# pyWC: Willard-Chandler Surface Analysis Toolkit
+# pyWC: Membrane Interface Analysis with Willard-Chandler Surfaces
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
-**pyWC** is a high-performance Python toolkit for computing and analyzing **Willard-Chandler intrinsic density surfaces** from molecular dynamics simulations. This package provides a focused, optimized implementation with multiple computational backends (CPU/GPU) for maximum performance on large molecular systems.
+**pyWC** is a high-performance Python toolkit for **analyzing membrane interfaces** in molecular dynamics simulations. It computes intrinsic density surfaces using the Willard-Chandler method, enabling quantitative analysis of **membrane surfaces**, **thickness profiles**, and **bending rigidity**. The package is optimized for large biological membrane systems with multiple computational backends (CPU/GPU).
+
+## Main Contributions
+
+### 1. Command-Line Tools for Membrane Analysis
+**pyWC provides ready-to-use scripts** in `./scripts/` for common membrane analysis tasks:
+
+- **`pywc-wc-area`**: Compute surface area over trajectories
+- **`pywc-wc-thickness`**: Calculate membrane thickness profiles
+- **`pywc-bending-rigidity`**: Estimate bending modulus from surface fluctuations
+- **`pywc-compare-wc-backends`**: Benchmark different computational backends
+
+These tools enable immediate analysis without writing custom Python code.
+
+### 2. Optimized Willard-Chandler Implementation
+Significant performance improvements over the original pytim implementation:
+
+- **~35x faster** KDE evaluation through optimized C++ implementation with OpenMP
+- **GPU acceleration** via CuPy for large membrane systems (>10k atoms)
+- **10-20x faster** system centering with parallel algorithms
+- **Efficient memory management** for trajectory processing
+
+### 3. Membrane-Specific Features
+- **Thickness profiles**: Compute local membrane thickness along interface normals
+- **Bending rigidity**: Extract mechanical properties from surface fluctuations
+- **Surface curvature**: Analyze membrane deformations and undulations
+- **Interface tracking**: Maintain surface continuity across MD frames
 
 ## About This Fork
 
-This project is a **specialized fork** of [pytim](https://github.com/Marcello-Sega/pytim) by Marcello Sega and collaborators. While pytim provides a comprehensive suite of interfacial analysis methods (ITIM, GITIM, SASA, Willard-Chandler, and DBSCAN), pyWC focuses exclusively on the Willard-Chandler method with significant performance improvements:
-
-- **~35x faster** KDE evaluation through optimized C++ implementation
-- **GPU acceleration** via CuPy for large systems (>10k atoms)
-- **10-20x faster** system centering with OpenMP parallelization
-- **Streamlined codebase** by removing unused ITIM/GITIM modules
+This project is a **specialized fork** of [pytim](https://github.com/Marcello-Sega/pytim) by Marcello Sega and collaborators. While pytim provides a comprehensive suite of interfacial analysis methods (ITIM, GITIM, SASA, Willard-Chandler, and DBSCAN), pyWC focuses exclusively on the Willard-Chandler method optimized for membrane analysis.
 
 **Upstream Project:** [Marcello-Sega/pytim](https://github.com/Marcello-Sega/pytim)
 **Original Publication:** Sega, M., Fabian, B., & Jedlovszky, P. (2018). *Pytim: A python package for the interfacial analysis of molecular simulations.* Journal of Computational Chemistry, 39(25), 2118-2125. [DOI: 10.1002/jcc.25384](https://doi.org/10.1002/jcc.25384)
 
 ## Scientific Background
 
-The Willard-Chandler method identifies intrinsic molecular surfaces by:
-1. Computing a smooth density field via Gaussian kernel density estimation
-2. Extracting the isosurface at critical density using marching cubes
-3. Providing a triangulated surface representation for analysis
+The Willard-Chandler method identifies **intrinsic membrane surfaces** by:
+1. Computing a smooth density field from membrane atoms via Gaussian kernel density estimation (KDE)
+2. Extracting the isosurface at critical density using marching cubes algorithm
+3. Providing a triangulated surface representation for geometric and mechanical analysis
+
+This approach is particularly powerful for **biological membranes** where:
+- Thermal fluctuations create complex, non-planar surfaces
+- Local thickness variations reflect membrane composition and interactions
+- Surface curvature and undulations encode mechanical properties
 
 **Reference:** Willard, A. P., & Chandler, D. (2010). *Instantaneous liquid interfaces.* The Journal of Physical Chemistry B, 114(5), 1954-1958. [DOI: 10.1021/jp909219k](https://doi.org/10.1021/jp909219k)
 
@@ -30,15 +56,16 @@ The Willard-Chandler method identifies intrinsic molecular surfaces by:
 
 ### Multi-Backend Performance
 - **CPU (C++)**: OpenMP-parallelized pybind11 extensions (~35x speedup)
-- **GPU (CUDA)**: CuPy implementation with custom CUDA kernels
+- **GPU (CUDA)**: CuPy implementation with custom CUDA kernels for large membranes
 - **Python**: Pure NumPy/SciPy fallback for testing
 
-### Core Capabilities
-- Compute intrinsic density fields on structured 3D grids
-- Extract triangulated surfaces via marching cubes
-- Calculate surface area, bending rigidity, and thickness profiles
-- Process entire MD trajectories with frame-to-frame continuity
-- Accurate periodic boundary condition handling
+### Membrane Analysis Capabilities
+- **Surface extraction**: Compute intrinsic membrane surfaces from lipid density fields
+- **Thickness profiles**: Calculate local membrane thickness with spatial resolution
+- **Surface area**: Track membrane area changes during phase transitions or pore formation
+- **Bending rigidity**: Estimate mechanical properties from surface undulation spectra
+- **Curvature analysis**: Quantify local and global membrane deformations
+- **Trajectory processing**: Analyze entire MD simulations with frame-to-frame continuity
 
 ### Output Formats
 - **VTK**: For visualization in ParaView, VMD
@@ -83,34 +110,58 @@ pip install .[gpu]
 
 ## Quick Start
 
-### Basic Usage
+### Command-Line Analysis
+
+For quick membrane analysis without coding:
+
+```bash
+# Compute membrane surface area over trajectory
+pywc-wc-area -s membrane.tpr -x trajectory.xtc \
+    --selection-file atoms.txt \
+    --alpha 3.0 --mesh 2.5 \
+    -b 0 -e 1000 --step 10
+
+# Calculate thickness profile
+pywc-wc-thickness -s membrane.tpr -x trajectory.xtc \
+    --selection-file atoms.txt \
+    --alpha 3.0 --mesh 2.5
+
+# Estimate bending rigidity
+pywc-bending-rigidity -s membrane.tpr -x trajectory.xtc \
+    --selection-file atoms.txt \
+    --alpha 3.0 --mesh 2.5
+```
+
+### Python API for Membrane Analysis
 
 ```python
 import MDAnalysis as mda
 from pywc import WillardChandler
 
-# Load trajectory
-u = mda.Universe("system.pdb", "trajectory.xtc")
-group = u.select_atoms("resname DPPC")
+# Load membrane simulation
+u = mda.Universe("membrane.tpr", "trajectory.xtc")
 
-# Create interface with CPU backend
+# Select lipid headgroups for surface calculation
+lipids = u.select_atoms("resname DPPC DOPC and name PO4")
+
+# Compute Willard-Chandler surface
 wc = WillardChandler(
     u,
-    group=group,
+    group=lipids,
     alpha=3.0,           # Gaussian width (Å)
-    mesh=2.0,            # Grid spacing (Å)
-    centered=True,       # Center the group
-    surface_backend='cpp'
+    mesh=2.5,            # Grid spacing (Å)
+    centered=True,       # Center membrane in box
+    surface_backend='cpp'  # Use optimized C++ backend
 )
 
-# Get surface
-vertices, faces, normals = wc.triangulated_surface
-print(f"Surface area: {wc.surface_area:.2f} Ų")
+# Analyze membrane properties
+print(f"Membrane surface area: {wc.surface_area:.2f} Ų")
+print(f"Average thickness: {wc.thickness_profile.mean():.2f} Å")
 
-# Export
-wc.writevtk.surface("surface.vtk")
-wc.writeobj("surface.obj")
-wc.writecube("density.cube")
+# Export for visualization
+wc.writevtk.surface("membrane_surface.vtk")  # ParaView
+wc.writeobj("membrane_surface.obj")          # Blender
+wc.writecube("density.cube")                 # VMD
 ```
 
 ### GPU Acceleration

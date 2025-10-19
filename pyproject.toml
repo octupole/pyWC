@@ -13,7 +13,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyWC"
 version = "1.0.4+wc"                                          # Loaded from pywc/version.py in setup.py
-description = "High-performance Willard-Chandler surface analysis toolkit for molecular dynamics (fork of pytim)"
+description = "Membrane interface analysis toolkit: Willard-Chandler surfaces, thickness profiles, and bending rigidity for MD simulations (optimized fork of pytim)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "GPL-3.0-only"}
