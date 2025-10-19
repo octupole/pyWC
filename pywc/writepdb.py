@@ -30,7 +30,7 @@ def _writepdb(interface,
     >>> print(f"Atoms written: {len(u2.atoms)}")  # doctest: +SKIP
     Atoms written: 105066
     >>>
-    >>> # Skip remaining GITIM tests  # doctest: +SKIP
+    >>> # Skip remaining GITIM tests
     >>> for centering in ['no', 'middle', 'origin']:  # doctest: +SKIP
     ... 	name='gitim.water.planar.'+centering+'.pdb'
     ... 	inter.writepdb(name,centered=centering,multiframe=False)

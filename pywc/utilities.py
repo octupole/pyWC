@@ -56,10 +56,10 @@ def correlate(a1, a2=None, _normalize=True):
 
       >>> import numpy as np  # doctest: +SKIP
       >>> import pywc  # doctest: +SKIP
-      >>> # Generate sample data  # doctest: +SKIP
+      >>> # Generate sample data
       >>> data = np.random.randn(50)  # doctest: +SKIP
       >>> corr = pywc.utilities.correlate(data - np.mean(data))  # doctest: +SKIP
-      >>> corr = corr / corr[0]  # normalize to 1  # doctest: +SKIP
+      >>> corr = corr / corr[0]  # doctest: +SKIP
       >>> print(f"Autocorrelation computed for {len(corr)} points")  # doctest: +SKIP
       Autocorrelation computed for 50 points
 
