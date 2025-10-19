@@ -119,8 +119,7 @@ wc = WillardChandler(
 )
 
 # Analyze membrane properties
-print(f"Membrane surface area: {wc.surface_area:.2f} Ų")
-print(f"Average thickness: {wc.thickness_profile.mean():.2f} Å")
+print(f"Membrane surface area: {wc.surface_area:.2f} Å^2")
 
 # Export for visualization
 wc.writevtk.surface("membrane_surface.vtk")  # ParaView
@@ -148,15 +147,14 @@ print(f"Computation time: {wc.get_timing():.4f} s")
 ### Trajectory Analysis
 
 ```python
-# Process entire trajectory
+# Process entire trajectory (auto‑recomputes per frame)
 areas = []
 for ts in u.trajectory:
-    wc.assign_surface()
     areas.append(wc.surface_area)
 
 # Analyze results
 import numpy as np
-print(f"Mean area: {np.mean(areas):.2f} ± {np.std(areas):.2f} Ų")
+print(f"Mean area: {np.mean(areas):.2f} ± {np.std(areas):.2f} Å^2")
 ```
 
 ## Performance Benchmarks

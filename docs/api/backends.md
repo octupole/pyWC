@@ -243,7 +243,8 @@ for backend in backends:
                          enable_timing=True)
 
     start = time.time()
-    wc.assign_surface()
+    # Surface recomputes automatically on frame change
+    _ = wc.surface_area
     elapsed = time.time() - start
 
     print(f"{backend:10s}: {elapsed:.4f} s")

@@ -161,9 +161,9 @@ Without centering, the membrane can wrap across periodic boundaries, creating ar
 **Columns:**
 - `frame` - Frame number
 - `time_ps` - Simulation time (ps)
-- `area_angstrom2` - Surface area (Ų)
+- `area_angstrom2` - Surface area (Å^2)
 - `box_x, box_y, box_z` - Box dimensions (Å)
-- `plane_area` - Projected XY area (Ų)
+- `plane_area` - Projected XY area (Å^2)
 - `density_cutoff` - Density threshold used
 - `alpha, mesh` - Parameters used
 - `upper_rms, lower_rms` - Surface roughness
@@ -212,12 +212,12 @@ pywc-wc-area \
 
 **Expected output:**
 ```
-frame      1 time       10.0 ps → area    15234.45 Ų (plane    16000.00 Ų)
-frame      2 time       20.0 ps → area    15198.32 Ų (plane    16000.00 Ų)
+frame      1 time       10.0 ps → area    15234.45 Å^2 (plane    16000.00 Å^2)
+frame      2 time       20.0 ps → area    15198.32 Å^2 (plane    16000.00 Å^2)
 ...
 Total time: 25.34 ms (average per frame, excluding first 2 frame(s))
 
-Completed. Area statistics (Ų): mean=15216.78, std=45.23, min=15098.12, max=15334.56
+Completed. Area statistics (Å^2): mean=15216.78, std=45.23, min=15098.12, max=15334.56
 Per-frame data saved to dppc_area.csv
 Thickness grid written to dppc_thickness.csv (mean thickness 38.4 Å)
 Upper surface roughness: mean RMS 2.15 Å, mean P-V 8.73 Å
@@ -299,7 +299,7 @@ df = pd.read_csv('willard_chandler_area.csv')
 plt.figure(figsize=(10, 6))
 plt.plot(df['time_ps'] / 1000, df['area_angstrom2'])
 plt.xlabel('Time (ns)')
-plt.ylabel('Surface Area (Ų)')
+plt.ylabel('Surface Area (Å^2)')
 plt.title('Membrane Surface Area Evolution')
 plt.grid(True, alpha=0.3)
 plt.savefig('area_vs_time.png', dpi=300)
@@ -347,7 +347,7 @@ n_lipids_upper = 512
 # Calculate APL (divide by 2 for one leaflet)
 df['apl'] = df['area_angstrom2'] / 2 / n_lipids_upper
 
-print(f"Mean APL: {df['apl'].mean():.2f} ± {df['apl'].std():.2f} Ų")
+print(f"Mean APL: {df['apl'].mean():.2f} ± {df['apl'].std():.2f} Å^2")
 ```
 
 ## Performance Benchmarks

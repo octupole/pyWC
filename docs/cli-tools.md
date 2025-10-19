@@ -146,12 +146,12 @@ pywc-wc-area \
 
 **Output:**
 ```
-frame      1 time       10.0 ps → area    15234.45 Ų (plane    16000.00 Ų)
-frame      2 time       20.0 ps → area    15198.32 Ų (plane    16000.00 Ų)
+frame      1 time       10.0 ps → area    15234.45 Å^2 (plane    16000.00 Å^2)
+frame      2 time       20.0 ps → area    15198.32 Å^2 (plane    16000.00 Å^2)
 ...
 Total time: 25.34 ms (average per frame, excluding first 2 frame(s))
 
-Completed. Area statistics (Ų): mean=15216.78, std=45.23, min=15098.12, max=15334.56
+Completed. Area statistics (Å^2): mean=15216.78, std=45.23, min=15098.12, max=15334.56
 Per-frame data saved to dppc_area.csv
 Thickness grid written to dppc_thickness.csv (mean thickness 38.4 Å)
 Upper surface roughness: mean RMS 2.15 Å, mean P-V 8.73 Å
@@ -234,9 +234,9 @@ The area CSV file contains per-frame statistics:
 |--------|-------------|
 | `frame` | Frame number |
 | `time_ps` | Simulation time (ps) |
-| `area_angstrom2` | Willard-Chandler surface area (Ų) |
+| `area_angstrom2` | Willard-Chandler surface area (Å^2) |
 | `box_x`, `box_y`, `box_z` | Simulation box dimensions (Å) |
-| `plane_area` | Projected XY plane area (Ų) |
+| `plane_area` | Projected XY plane area (Å^2) |
 | `density_cutoff` | Density threshold used for isosurface |
 | `alpha` | Gaussian width parameter |
 | `mesh` | Grid spacing used |
@@ -512,7 +512,7 @@ for system in systems:
 
 # Compare
 for system, stats in results.items():
-    print(f"{system}: {stats['mean_area']:.1f} ± {stats['std_area']:.1f} Ų")
+    print(f"{system}: {stats['mean_area']:.1f} ± {stats['std_area']:.1f} Å^2")
 ```
 
 ---

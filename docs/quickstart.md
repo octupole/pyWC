@@ -54,7 +54,7 @@ wc = WillardChandler(
 vertices, faces, normals = wc.triangulated_surface
 
 # Get surface area
-print(f"Surface area: {wc.surface_area:.2f} Ų")
+print(f"Surface area: {wc.surface_area:.2f} Å^2")
 
 # Export to VTK for visualization
 wc.writevtk.surface("water_surface.vtk")
@@ -153,7 +153,7 @@ wc = WillardChandler(
 )
 
 # Analyze
-print(f"Membrane surface area: {wc.surface_area:.2f} Ų")
+print(f"Membrane surface area: {wc.surface_area:.2f} Å^2")
 wc.writevtk.surface("membrane.vtk")
 ```
 
@@ -172,7 +172,7 @@ wc = WillardChandler(
     centered=True
 )
 
-print(f"Protein surface area: {wc.surface_area:.2f} Ų")
+print(f"Protein surface area: {wc.surface_area:.2f} Å^2")
 ```
 
 ### Micelle Analysis
@@ -205,21 +205,21 @@ areas = []
 times = []
 
 for ts in u.trajectory[::10]:  # Every 10th frame
-    wc.assign_surface()
+    # Surface recomputes automatically per frame
     areas.append(wc.surface_area)
     times.append(ts.time)
-    print(f"Frame {ts.frame}: Area = {wc.surface_area:.2f} Ų")
+    print(f"Frame {ts.frame}: Area = {wc.surface_area:.2f} Å^2")
 
 # Calculate statistics
 mean_area = np.mean(areas)
 std_area = np.std(areas)
-print(f"\nMean area: {mean_area:.2f} ± {std_area:.2f} Ų")
+print(f"\nMean area: {mean_area:.2f} ± {std_area:.2f} Å^2")
 
 # Plot
 import matplotlib.pyplot as plt
 plt.plot(times, areas)
 plt.xlabel("Time (ps)")
-plt.ylabel("Surface Area (Ų)")
+plt.ylabel("Surface Area (Å^2)")
 plt.savefig("area_vs_time.png")
 ```
 
@@ -234,8 +234,8 @@ wc.writevtk.surface("surface.vtk")
 # Export density field
 wc.writevtk.density("density.vtk")
 
-# Export atoms
-wc.writevtk.atoms("atoms.vtk")
+# Export particles
+wc.writevtk.particles("atoms.vtk")
 ```
 
 **Visualize in ParaView:**
@@ -264,7 +264,7 @@ Compatible with Gaussian, ORCA, VMD, etc.
 ### PDB (Molecular Viewers)
 
 ```python
-wc.writepdb.surface("surface.pdb")
+wc.writepdb("surface.pdb")
 ```
 
 ## Performance Tips
@@ -312,7 +312,7 @@ For trajectory analysis, skip initial equilibration:
 
 ```python
 for ts in u.trajectory[100:]:  # Skip first 100 frames
-    wc.assign_surface()
+    # Surface recomputes automatically per frame
     # Analysis...
 ```
 

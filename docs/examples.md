@@ -28,11 +28,11 @@ wc = WillardChandler(
 # Analyze trajectory
 areas = []
 for ts in u.trajectory:
-    wc.assign_surface()
+    # Surface recomputes automatically per frame
     areas.append(wc.surface_area)
 
 # Statistics
-print(f"Mean area: {np.mean(areas):.2f} ± {np.std(areas):.2f} Ų")
+print(f"Mean area: {np.mean(areas):.2f} ± {np.std(areas):.2f} Å^2")
 
 # Export final frame
 wc.writevtk.surface("water_surface.vtk")
@@ -62,8 +62,7 @@ wc_upper = WillardChandler(
     centered=False    # Leaflets already positioned
 )
 
-wc_upper.assign_surface()
-print(f"Upper leaflet area: {wc_upper.surface_area:.2f} Ų")
+print(f"Upper leaflet area: {wc_upper.surface_area:.2f} Å^2")
 
 # Analyze lower leaflet
 wc_lower = WillardChandler(
@@ -73,8 +72,7 @@ wc_lower = WillardChandler(
     mesh=2.0
 )
 
-wc_lower.assign_surface()
-print(f"Lower leaflet area: {wc_lower.surface_area:.2f} Ų")
+print(f"Lower leaflet area: {wc_lower.surface_area:.2f} Å^2")
 
 # Export both surfaces
 wc_upper.writevtk.surface("upper_leaflet.vtk")
@@ -146,9 +144,9 @@ wc = WillardChandler(
 
 # Process trajectory
 for ts in u.trajectory[::10]:  # Every 10th frame
-    wc.assign_surface()
+    # Surface recomputes automatically per frame
     area = wc.surface_area
-    print(f"Frame {ts.frame:4d}: Area = {area:.2f} Ų")
+    print(f"Frame {ts.frame:4d}: Area = {area:.2f} Å^2")
 
     # Save snapshots
     if ts.frame % 100 == 0:
@@ -183,10 +181,10 @@ for backend in ['cpp', 'cupy']:
         )
 
         start = time.time()
-        wc.assign_surface()
+        # Auto‑recomputed per frame
         elapsed = time.time() - start
 
-        print(f"{backend:10s}: {elapsed:.4f} s, Area = {wc.surface_area:.2f} Ų")
+        print(f"{backend:10s}: {elapsed:.4f} s, Area = {wc.surface_area:.2f} Å^2")
 
     except Exception as e:
         print(f"{backend:10s}: Not available ({e})")
@@ -219,7 +217,7 @@ areas = []
 n_vertices = []
 
 for ts in u.trajectory[::5]:  # Every 5th frame
-    wc.assign_surface()
+    # Surface recomputes automatically per frame
 
     times.append(ts.time)
     areas.append(wc.surface_area)
@@ -238,12 +236,12 @@ fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 # Surface area
 ax1.plot(times, areas, 'b-', linewidth=0.5, alpha=0.7)
 ax1.axhline(areas.mean(), color='r', linestyle='--',
-            label=f'Mean: {areas.mean():.1f} Ų')
+            label=f'Mean: {areas.mean():.1f} Å^2')
 ax1.fill_between(times,
                  areas.mean()-areas.std(),
                  areas.mean()+areas.std(),
                  alpha=0.2, color='r')
-ax1.set_ylabel('Surface Area (Ų)')
+ax1.set_ylabel('Surface Area (Å^2)')
 ax1.legend()
 ax1.grid(alpha=0.3)
 
@@ -257,7 +255,7 @@ plt.tight_layout()
 plt.savefig('surface_analysis.png', dpi=300)
 
 # Statistics
-print(f"Area: {areas.mean():.2f} ± {areas.std():.2f} Ų")
+print(f"Area: {areas.mean():.2f} ± {areas.std():.2f} Å^2")
 print(f"Vertices: {n_vertices.mean():.0f} ± {n_vertices.std():.0f}")
 ```
 
@@ -327,7 +325,7 @@ from pywc import WillardChandler
 # VTK for ParaView
 wc.writevtk.surface("surface.vtk")
 wc.writevtk.density("density.vtk")
-wc.writevtk.atoms("atoms.vtk")
+wc.writevtk.particles("atoms.vtk")
 
 # Wavefront OBJ for Blender
 wc.writeobj("surface.obj")
@@ -336,7 +334,7 @@ wc.writeobj("surface.obj")
 wc.writecube("density.cube")
 
 # PDB for molecular viewers
-wc.writepdb.surface("surface.pdb")
+wc.writepdb("surface.pdb")
 ```
 
 ## Custom Analysis

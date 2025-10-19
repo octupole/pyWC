@@ -120,11 +120,11 @@ print(f"Number of faces: {len(faces)}")
 ```
 
 ### `surface_area`
-Total surface area in Ų.
+Total surface area in Å^2.
 
 ```python
 area = wc.surface_area
-print(f"Surface area: {area:.2f} Ų")
+print(f"Surface area: {area:.2f} Å^2")
 ```
 
 ### `density_field`
@@ -149,20 +149,12 @@ grid_points = wc.grid
 
 ## Methods
 
-### `assign_surface()`
-Compute the surface for the current frame.
+### Recompute surface (manual)
+Surfaces are recomputed automatically when advancing frames (autoassign=True). If you disabled autoassign and need a manual refresh, call the internal method:
 
 ```python
-wc.assign_surface()
-```
-
-**Use case:** Call this when iterating over trajectory frames:
-
-```python
-for ts in u.trajectory:
-    wc.assign_surface()
-    area = wc.surface_area
-    print(f"Frame {ts.frame}: {area:.2f} Ų")
+# Only needed if autoassign is disabled
+wc._assign_layers()  # recompute surface for current frame
 ```
 
 ### `get_timing()`
@@ -172,7 +164,8 @@ Get the total computation time (if `enable_timing=True`).
 
 ```python
 wc = WillardChandler(u, group=water, enable_timing=True)
-wc.assign_surface()
+# Surfaces recompute automatically; call only if autoassign is disabled
+# wc._assign_layers()
 time = wc.get_timing()
 print(f"Computation time: {time:.4f} s")
 ```
@@ -194,11 +187,11 @@ Export density field to VTK format.
 wc.writevtk.density("density.vtk")
 ```
 
-### `writevtk.atoms(filename)`
+### `writevtk.particles(filename)`
 Export atom positions to VTK format.
 
 ```python
-wc.writevtk.atoms("atoms.vtk")
+wc.writevtk.particles("atoms.vtk")
 ```
 
 ### `writeobj(filename)`
@@ -215,11 +208,11 @@ Export density to Gaussian Cube format.
 wc.writecube("density.cube")
 ```
 
-### `writepdb.surface(filename)`
-Export surface vertices as PDB.
+### `writepdb(filename)`
+Export the current frame as a PDB (layers tagged via beta field where applicable).
 
 ```python
-wc.writepdb.surface("surface.pdb")
+wc.writepdb("surface.pdb")
 ```
 
 ## Complete Example
@@ -247,7 +240,6 @@ wc = WillardChandler(
 # Analyze trajectory
 areas = []
 for ts in u.trajectory[::10]:  # Every 10th frame
-    wc.assign_surface()
     areas.append(wc.surface_area)
 
     # Export every 100th frame
@@ -257,7 +249,7 @@ for ts in u.trajectory[::10]:  # Every 10th frame
 # Statistics
 mean_area = np.mean(areas)
 std_area = np.std(areas)
-print(f"Mean area: {mean_area:.2f} ± {std_area:.2f} Ų")
+print(f"Mean area: {mean_area:.2f} ± {std_area:.2f} Å^2")
 print(f"Average time per frame: {wc.get_timing():.4f} s")
 
 # Get final surface
