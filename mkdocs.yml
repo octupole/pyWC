@@ -118,13 +118,15 @@ nav:
   - Getting Started:
     - Installation: installation.md
     - Quick Start: quickstart.md
-    - CLI Tools: cli-tools.md
     - Examples: examples.md
+  - Command-Line Tools:
+    - Overview: cli-tools.md
+    - compute_willard_chandler_area.py: compute_wc_area.md
   - API Reference:
     - WillardChandler: api/willard_chandler.md
     - Backends: api/backends.md
-  - Community:
-    - Citation: citation.md
+  - Citation:
+    - How to Cite: citation.md
     - Contributing: contributing.md
   - External Links:
     - GitHub Repository: https://github.com/octupole/pyWC
