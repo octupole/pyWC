@@ -118,6 +118,7 @@ nav:
   - Getting Started:
     - Installation: installation.md
     - Quick Start: quickstart.md
+    - CLI Tools: cli-tools.md
     - Examples: examples.md
   - API Reference:
     - WillardChandler: api/willard_chandler.md

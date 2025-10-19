@@ -23,7 +23,10 @@
       "Bash(mkdocs build:*)",
       "Bash(ls:*)",
       "Bash(/opt/miniforge3/envs/pywc/bin/pip install:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh api:*)"
     ],
     "deny": [],
     "ask": []

@@ -10,8 +10,7 @@
 ### 1. Command-Line Tools for Membrane Analysis
 **pyWC provides ready-to-use scripts** in `./scripts/` for common membrane analysis tasks:
 
-- **`pywc-wc-area`**: Compute surface area over trajectories
-- **`pywc-wc-thickness`**: Calculate membrane thickness profiles
+- **`pywc-wc-area`**: Compute surface area and thickness profiles over trajectories
 - **`pywc-bending-rigidity`**: Estimate bending modulus from surface fluctuations
 - **`pywc-compare-wc-backends`**: Benchmark different computational backends
 
@@ -115,16 +114,11 @@ pip install .[gpu]
 For quick membrane analysis without coding:
 
 ```bash
-# Compute membrane surface area over trajectory
+# Compute membrane surface area and thickness over trajectory
 pywc-wc-area -s membrane.tpr -x trajectory.xtc \
     --selection-file atoms.txt \
     --alpha 3.0 --mesh 2.5 \
     -b 0 -e 1000 --step 10
-
-# Calculate thickness profile
-pywc-wc-thickness -s membrane.tpr -x trajectory.xtc \
-    --selection-file atoms.txt \
-    --alpha 3.0 --mesh 2.5
 
 # Estimate bending rigidity
 pywc-bending-rigidity -s membrane.tpr -x trajectory.xtc \
@@ -221,6 +215,14 @@ Real-world membrane analysis using `compute_willard_chandler_area.py`:
 | GOLO/GOLH interdigitated membrane | 105,000 | GPU (cupy) | 20 | **21.4x** |
 
 *Benchmarks measured with the `pywc-wc-area` command-line tool on a large biological membrane system (α=3.0 Å, mesh=2.5 Å)*
+
+**What's measured:** Complete Willard-Chandler surface computation per frame, including:
+
+1. System centering and grid preparation (`prepare_box`)
+2. KDE density field evaluation (`define_cluster_group`) - **most compute-intensive step**
+3. Marching cubes isosurface extraction (`compute_surface`)
+
+The timing is built into the script via `enable_timing=True` (see [compute_willard_chandler_area.py:364](scripts/compute_willard_chandler_area.py#L364)). Time reported is mean per-frame (excluding first 2 frames to remove initialization overhead).
 
 **Key insight**: The C++ backend provides ~17x speedup for production membrane analysis, while GPU provides ~21x speedup for large systems.
 
