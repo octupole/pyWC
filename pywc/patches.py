@@ -2,6 +2,7 @@
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 from __future__ import print_function
 
+
 def patchTrajectory(trajectory, interface):
     """ Patch the MDAnalysis trajectory class
 
@@ -9,7 +10,8 @@ def patchTrajectory(trajectory, interface):
         called whenever a new frame is loaded.
     """
     from importlib.metadata import version
-    if  int(version('numpy').split('.')[0])<2 : return
+    if int(version('numpy').split('.')[0]) < 2:
+        return
     try:
         trajectory.interface
         trajectory.interface = interface
@@ -99,14 +101,6 @@ def patchMDTRAJ(trajectory, universe):
 
         Example:
 
-        >>> try:
-        ...     import mdtraj
-        ...     import pywc
-        ...     from pywc.datafiles import WATER_GRO, WATER_XTC
-        ...     t = mdtraj.load_xtc(WATER_XTC,top=WATER_GRO)
-        ...     inter = pywc.ITIM(t)  # doctest: +SKIP
-        ... except:
-        ...     pass
 
 
     """
