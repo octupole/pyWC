@@ -21,7 +21,9 @@
       "Bash(git commit:*)",
       "Bash(mkdir:*)",
       "Bash(mkdocs build:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(/opt/miniforge3/envs/pywc/bin/pip install:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

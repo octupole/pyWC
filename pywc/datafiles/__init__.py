@@ -1,39 +1,126 @@
 # -*- Mode: python; tab-width: 4; indent-tabs-mode:nil; coding: utf-8 -*-
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
-"""
-Datafiles module for pyWC test data.
+""" Location of data files for pywc examples and tests
+====================================================
 
-Provides paths to test trajectories and structures for examples and testing.
-"""
+    Real MD simulation data are stored in the ``data/`` subdirectory.
+
+
+    Example: load an example trajectory
+
+    >>> import MDAnalysis as mda
+    >>> import pywc
+    >>> import numpy as np
+    >>> from pywc.datafiles import *
+    >>> u         = mda.Universe(WATER_GRO,WATER_XTC)
+    >>> print(u)
+    <Universe with 12000 atoms>
+
+    Example: list all configurations
+
+    >>> for config in sorted(pywc_data.config):
+    ...     print("{:20s} {:s}".format(config,pywc_data.description[config]))
+    CCL4_WATER_GRO       Carbon tetrachloride/TIP4p water interface
+    DPPC_GRO             DPPC bilayer
+    FULLERENE_PDB        fullerene
+    GLUCOSE_PDB          solvated beta-d-glucose
+    LJ_GRO               Lennard-Jones liquid/vapour interface
+    MICELLE_PDB          DPC micelle
+    NPT_RUN_TPR          .tpr file for golo/golh membranes 
+    SELECTION_TXT        selection file for golo/golh membranes 
+    WATERSMALL_GRO       small SPC water/vapour interface
+    WATER_520K_GRO       SPC/E water/vapour interface, 520K
+    WATER_550K_GRO       SPC/E water/vapour interface, 550K
+    WATER_DROPLET_CYLINDRICAL_GRO cylindrical water droplet on graphite
+    WATER_DROPLET_SPHERICAL_GRO spherical water droplet on graphite
+    WATER_GRO            SPC water/vapour interface
+    WATER_PDB            SPC water/vapour interface
+    WATER_TWO_INTERFACES two SPC water/vapour interfaces
+    WATER_XYZ            SPC water/vapour interface        
+
+
+
+    Example: list all topologies
+
+    >>> print(np.sort(pywc_data.topol))
+    ['AMBER03_TOP' 'CHARMM27_TOP' 'G43A1_TOP' 'WATER_LMP_DATA']
+
+
+
+    Example: list all trajectories
+
+    >>> print (np.sort(pywc_data.traj))
+    ['LJ_SHORT_XTC' 'TRAJ_TEST_XTC' 'WATER_DROPLET_CYLINDRICAL_XTC'
+     'WATER_LMP_XTC' 'WATER_XTC']
+
+
+    Example: list all files, file type, file format and description
+
+    >>> for label in  pywc_data.label:
+    ...      type        = pywc_data.type[label]
+    ...      format      = pywc_data.format[label]
+    ...      description = pywc_data.description[label]
+
+    """
 
 from __future__ import print_function
-import os
-import re
 
-# Resource loader for data files
+__all__ = [
+    "CCL4_WATER_GRO",  # GROMACS single frame, carbon tetrachloride / water interface
+    "WATER_GRO",  # GROMACS single frame, water/vapour interface
+    "WATER_LMP_DATA",  # LAMMPS topology for WATER_LAMMPS, water/vapour interface
+    "WATER_LMP_XTC",  # LAMMPS trajectory, water/vapour interface
+    "WATER_PDB",  # PDB single frame, water/vapour interface, same as WATER_GRO
+    "WATER_XYZ",  # XYZ single frame, water/vapour interface, same as WATER_GRO
+    "WATERSMALL_GRO",  # GROMACS single frame, SPC water/vapour interface
+    "WATER_520K_GRO",  # GROMACS single frame, SPC/E water/vapour interface,520 K
+    "WATER_XYZ",  # XYZ single frame, water/vapour interface, same as WATER_GRO
+    # GROMACS single frame, SPC/E water droplet on graphite
+    "WATER_DROPLET_CYLINDRICAL_GRO",
+    # GROMACS 2 frames trajectory, SPC/E water droplet on graphite
+    "WATER_DROPLET_CYLINDRICAL_XTC",
+    # GROMACS single frame, SPC/E spherical water droplet on graphite
+    "WATER_DROPLET_SPHERICAL_GRO",
+    "METHANOL_GRO",  # methanol/vapour interface with molecules in the  vapour phase
+    "ILBENZENE_GRO",  # Ionic liquid/benzene, partial miscibility
+    "ANTAGONISTIC_GRO",  # 3-Methylpyridine, Sodium Tetraphenylborate and water
+    "LJ_GRO",  # Lennard-Jones liquid/vapour interface
+    "LJ_SHORT_XTC",  # Lennard-Jones liquid/vapour interface trajectory
+    "MICELLE_PDB",  # PDB of dodecylphosphocholine micelle in water
+    "FULLERENE_PDB",  # PDB of C60
+    "DPPC_GRO",  # GROMACS single frame of a dppc bilayer
+    "GLUCOSE_PDB",  # PDB of solvated beta-d-glucose
+    "WATER_XTC",  # GROMACS trajectory, 100 frames, water/vapour interface
+    "G43A1_TOP",  # GROMOS 43a1 nonbonded parameters, from the gromacs distribution
+    "AMBER03_TOP",  # AMBER03 nonbonded parameters, from the gromacs distribution
+    "CHARMM27_TOP",  # CHARM27 nonbonded parameters, from the gromacs distribution
+    "pywc_data",  # class to access the data
+    "_TEST_BCC_GRO",  # test file
+    "_TEST_ORIENTATION_GRO",  # test file
+    # test fileNPT_RUN_TPR = resource('pywc', 'data/npt_run.tpr')
+    "_TEST_PROFILE_GRO",
+    "NPT_RUN_TPR",  # golo/golh membrane .tpr file
+    "TRAJ_TEST_XTC",  # golo/golh membrane trajectory .xtc file
+    "SELECTION_TXT",  # golo/golh membrane selection file
+]
 try:
     from importlib.resources import files
     def resource(path, fname): return str(files(path)/fname)
 except:
     from pkg_resources import resource_filename as resource
 
-# Get the data directory path
-_data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
-
-# Test files for Willard-Chandler surface analysis
-NPT_RUN_TPR = os.path.join(_data_dir, 'npt_run.tpr')
-TRAJ_TEST_XTC = os.path.join(_data_dir, 'trj_test.xtc')
-SELECTION_TXT = os.path.join(_data_dir, 'selection.txt')
-
-# For backward compatibility with old examples (if needed)
-# These will be the same files but with legacy names
-MICELLE_PDB = NPT_RUN_TPR  # Placeholder - will need actual micelle file
-WATER_GRO = NPT_RUN_TPR    # Placeholder - will need actual water file
-WATER_XTC = TRAJ_TEST_XTC  # Using test trajectory
+import tempfile
+import re as re
+import urllib
+try:
+    from urllib import urlopen as urlopen
+except:
+    from urllib.request import urlopen as urlopen
 
 
 class Data(object):
-    """A class for storing/accessing configurations, trajectories, topologies"""
+    """" a class for storing/accessing configurations, trajectories, topologies
+    """
 
     @staticmethod
     def sigeps(data, input_type):
@@ -48,6 +135,76 @@ class Data(object):
             sigma = a
 
         return sigma * nm2angs
+
+    @staticmethod
+    def fetch(name, tmpdir=None):
+        """ Fetch a sample trajectory from the github repository.
+
+            Have a look at https://github.com/Marcello-Sega/pywc/raw/extended_datafiles/files/
+            for the available files
+
+            Example:
+
+            >>> import MDAnalysis as mda
+            >>> import pywc
+            >>> from pywc.datafiles import WATERSMALL_GRO
+
+            >>> # tmpdir here is specified only for travis
+            >>> import os
+            >>> WATERSMALL_TRR = pywc.datafiles.pywc_data.fetch('WATERSMALL_TRR',tmpdir='./')
+            checking presence of a cached copy... not found. Fetching remote file... done.
+
+            >>> u = mda.Universe(WATERSMALL_GRO,WATERSMALL_TRR)
+            >>> os.unlink('./'+WATERSMALL_TRR)
+            >>> print(u)
+            <Universe with 648 atoms>
+
+        """
+
+        filename = name.replace("_", ".")
+        if tmpdir is None:
+            dirname = tempfile.gettempdir()
+        else:
+            dirname = tmpdir
+        urlbase_md5 = 'https://raw.githubusercontent.com/Marcello-Sega/pywc/extended_datafiles/files/'
+        urlbase = 'https://github.com/Marcello-Sega/pywc/raw/extended_datafiles/files/'
+        print("checking presence of a cached copy...", end=' ')
+        try:
+            with urlopen(urlbase_md5 + filename + '.MD5') as handle:
+                md5 = handle.read()
+            md5_local = hashlib.md5(open(dirname + filename,
+                                         'rb').read()).hexdigest()
+            if md5_local in md5:
+                print("found")
+                return dirname + filename
+        except BaseException:
+            pass
+        print("not found. Fetching remote file...", end=' ')
+        newfile = urlopen(urlbase + filename + '?raw=true')
+        with open(dirname + filename, 'wb') as output:
+            output.write(newfile.read())
+            print("done.")
+            return dirname + filename
+
+    def _generate_data_property(self, name):
+        labels = []
+        for label in self.type.keys():
+            if self.type[label] == name:
+                labels.append(label)
+        # labels = [label for label, val in self.type.iteritems() if val == name]
+        return list(set(labels) & set(self.label))
+
+    @property
+    def config(self):
+        return self._generate_data_property('config')
+
+    @property
+    def topol(self):
+        return self._generate_data_property('topol')
+
+    @property
+    def traj(self):
+        return self._generate_data_property('traj')
 
     def __init__(self):
         self._label = list()
@@ -71,14 +228,10 @@ class Data(object):
         self.description[label] = desc
 
     def vdwradii(self, filename):
-        """Get van der Waals radii from a topology file"""
-        if self.type.get(filename) == 'topol' and self.format.get(filename) == 'GMX':
+        if self.type[filename] == 'topol' and self.format[filename] == 'GMX':
             return self._vdwradii_gmx(filename)
-        # Return empty dict if not a GMX topology file
-        return {}
 
     def _vdwradii_gmx(self, filename):
-        """Extract VDW radii from GROMACS topology file"""
         with open(filename) as f:
             input_type = 'sigeps'
             content = f.read()
@@ -101,30 +254,105 @@ class Data(object):
                     scan = True
         return radii
 
-    def _generate_data_property(self, name):
-        labels = []
-        for label in self.type.keys():
-            if self.type[label] == name:
-                labels.append(label)
-        return list(set(labels) & set(self.label))
 
-    @property
-    def config(self):
-        return self._generate_data_property('config')
-
-    @property
-    def topol(self):
-        return self._generate_data_property('topol')
-
-    @property
-    def traj(self):
-        return self._generate_data_property('traj')
-
-
-# Instantiate the pywc_data object
 pywc_data = Data()
 
-# Topology files for VDW radii extraction
+# NOTE: to add a new datafile, make sure it is listed in setup.py (in the root directory)
+# in the package_data option (a glob like 'data/*' is usually enough)
+CCL4_WATER_GRO = resource('pywc', 'data/CCL4.H2O.GRO')
+pywc_data.add('CCL4_WATER_GRO', 'config', 'GRO',
+              'Carbon tetrachloride/TIP4p water interface')
+
+WATER_GRO = resource('pywc', 'data/water.gro')
+pywc_data.add('WATER_GRO', 'config', 'GRO', 'SPC water/vapour interface')
+
+WATER_LMP_XTC = resource('pywc', 'data/water_lmp.xtc')
+pywc_data.add('WATER_LMP_XTC', 'traj', 'LAMMPS', 'SPC water/vapour interface')
+
+WATER_PDB = resource('pywc', 'data/water.pdb')
+pywc_data.add('WATER_PDB', 'config', 'PDB', 'SPC water/vapour interface')
+
+WATER_XYZ = resource('pywc', 'data/water.xyz')
+pywc_data.add('WATER_XYZ', 'config', 'XYZ', 'SPC water/vapour interface')
+
+MICELLE_PDB = resource('pywc', 'data/micelle.pdb')
+pywc_data.add('MICELLE_PDB', 'config', 'GRO', 'DPC micelle')
+
+FULLERENE_PDB = resource('pywc', 'data/fullerene.pdb')
+pywc_data.add('FULLERENE_PDB', 'config', 'PDB', 'fullerene')
+
+DPPC_GRO = resource('pywc', 'data/dppc.gro')
+pywc_data.add('DPPC_GRO', 'config', 'GRO', 'DPPC bilayer')
+
+GLUCOSE_PDB = resource('pywc', 'data/glucose.pdb')
+pywc_data.add('GLUCOSE_PDB', 'config', 'PDB', 'solvated beta-d-glucose')
+
+LJ_GRO = resource('pywc', 'data/LJ.gro')
+pywc_data.add('LJ_GRO', 'config', 'GRO',
+              'Lennard-Jones liquid/vapour interface')
+
+LJ_SHORT_XTC = resource('pywc', 'data/LJ.short.xtc')
+pywc_data.add('LJ_SHORT_XTC', 'traj', 'XTC', 'LJ liquid/vapour interface')
+
+WATERSMALL_GRO = resource('pywc', 'data/water-small.gro')
+pywc_data.add('WATERSMALL_GRO', 'config', 'GRO',
+              'small SPC water/vapour interface')
+
+WATER_TWO_INTERFACES = resource('pywc', 'data/water-2-interfaces.gro')
+pywc_data.add('WATER_TWO_INTERFACES', 'config', 'GRO',
+              'two SPC water/vapour interfaces')
+
+WATER_520K_GRO = resource('pywc', 'data/water_520K.gro')
+pywc_data.add('WATER_520K_GRO', 'config', 'GRO',
+              'SPC/E water/vapour interface, 520K')
+
+WATER_550K_GRO = resource('pywc', 'data/water_550K.gro')
+pywc_data.add('WATER_550K_GRO', 'config', 'GRO',
+              'SPC/E water/vapour interface, 550K')
+
+WATER_DROPLET_CYLINDRICAL_GRO = resource(
+    'pywc', 'data/water_droplet_cylindrical.gro')
+pywc_data.add('WATER_DROPLET_CYLINDRICAL_GRO', 'config', 'GRO',
+              'cylindrical water droplet on graphite')
+
+WATER_DROPLET_CYLINDRICAL_XTC = resource(
+    'pywc', 'data/water_droplet_cylindrical.xtc')
+pywc_data.add('WATER_DROPLET_CYLINDRICAL_XTC', 'traj', 'XTC',
+              'cylindrical water droplet on graphite trajectory')
+
+WATER_DROPLET_SPHERICAL_GRO = resource(
+    'pywc', 'data/water_droplet_spherical.gro')
+pywc_data.add('WATER_DROPLET_SPHERICAL_GRO', 'config', 'GRO',
+              'spherical water droplet on graphite')
+
+METHANOL_GRO = resource('pywc', 'data/methanol.gro')
+pywc_data.add('METHANOL_GRO', 'conf', 'GRO', 'methanol/vapour interface')
+
+ILBENZENE_GRO = resource('pywc', 'data/ilbenzene.gro')
+pywc_data.add('ILBENZENE_GRO', 'conf', 'GRO', 'BMIM PF4 / benzene interface')
+
+ANTAGONISTIC_GRO = resource('pywc', 'data/antagonistic.gro')
+pywc_data.add('ANTAGONISTIC_GRO', 'conf', 'GRO',
+              '3-Methylpyridine, Sodium Tetraphenylborate and water')
+
+WATER_XTC = resource('pywc', 'data/water.xtc')
+pywc_data.add('WATER_XTC', 'traj', 'XTC',
+              'SPC water/vapour interface trajectory')
+
+_TEST_BCC_GRO = resource('pywc', 'data/_test_bcc.gro')
+pywc_data.add('_TEST_BCC_GRO', 'config', 'GRO', 'test file')
+
+_TEST_ORIENTATION_GRO = resource('pywc',
+                                 'data/_test_orientation.gro')
+pywc_data.add('_TEST_ORIENTATION_GRO', 'config', 'GRO', 'test file')
+
+_TEST_PROFILE_GRO = resource('pywc', 'data/_test_profile.gro')
+pywc_data.add('_TEST_PROFILE_GRO', 'config', 'GRO', 'test file')
+
+WATER_LMP_DATA = resource('pywc', 'data/water_lmp.data')
+pywc_data.add('WATER_LMP_DATA', 'topol', 'DATA',
+              'LAMMPS topology for WATER_LAMMPS')
+
 G43A1_TOP = resource('pywc', 'data/ffg43a1.nonbonded.itp')
 pywc_data.add('G43A1_TOP', 'topol', 'GMX', 'GROMOS 43A1 topology for GROMACS')
 
@@ -132,20 +360,19 @@ AMBER03_TOP = resource('pywc', 'data/ffamber03.nonbonded.itp')
 pywc_data.add('AMBER03_TOP', 'topol', 'GMX', 'AMBER 03 topology for GROMACS')
 
 CHARMM27_TOP = resource('pywc', 'data/ffcharmm27.nonbonded.itp')
-pywc_data.add('CHARMM27_TOP', 'topol', 'GMX', 'CHARMM 27 topology for GROMACS')
+pywc_data.add('CHARMM27_TOP', 'topol', 'GMX',
+              'CHARMM 27 topology for GROMACS')
 
-# Clean up namespace
+NPT_RUN_TPR = resource('pywc', 'data/npt_run.tpr')
+pywc_data.add('NPT_RUN_TPR', 'config', 'TPR',
+              '.tpr file for golo/golh membranes ')
+TRAJ_TEST_XTC = resource('pywc', 'data/trj_test.xtc')
+pywc_data.add('TRAJ_TEST_XTC', 'traj', 'XTC',
+              '.xtc file for golo/golh membranes ')
+
+SELECTION_TXT = resource('pywc', 'data/selection.txt')
+pywc_data.add('SELECTION_TXT', 'config', 'TXT',
+              'selection file for golo/golh membranes ')
+
+# This should be the last line: clean up namespace
 del resource
-
-__all__ = [
-    'NPT_RUN_TPR',
-    'TRAJ_TEST_XTC',
-    'SELECTION_TXT',
-    'MICELLE_PDB',
-    'WATER_GRO',
-    'WATER_XTC',
-    'G43A1_TOP',
-    'AMBER03_TOP',
-    'CHARMM27_TOP',
-    'pywc_data',
-]
