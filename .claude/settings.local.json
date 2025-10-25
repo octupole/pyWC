@@ -26,7 +26,20 @@
       "Bash(git push:*)",
       "Bash(gh repo view:*)",
       "Bash(gh run list:*)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(echo:*)",
+      "Read(//usr/local/**)",
+      "Bash(nvidia-smi:*)",
+      "Bash(python3:*)",
+      "Bash(pip show:*)",
+      "Bash(/opt/miniforge3/envs/pywc/bin/pip list:*)",
+      "Read(//opt/**)",
+      "Bash(/opt/miniforge/envs/pywc/bin/python:*)",
+      "Bash(/opt/miniforge/envs/pywc/bin/pip list:*)",
+      "Bash(/opt/miniforge/envs/pywc/bin/pip show:*)",
+      "Read(//home/marchi/**)",
+      "Bash(/opt/miniforge/envs/pywc/bin/pip install:*)",
+      "Bash(PYWC_SKIP_CUPY=1 /opt/miniforge/envs/pywc/bin/pip install:*)"
     ],
     "deny": [],
     "ask": []

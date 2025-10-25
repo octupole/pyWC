@@ -58,13 +58,8 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
-dependencies = [
-  "numpy>=2.1.3",
-  "scipy>=1.11.3",
-  "scikit-image>=0.24.0",
-  "MDAnalysis>=2.8.0",
-  "packaging>=23.0",
-]
+# Dependencies are determined dynamically by setup.py based on CUDA availability
+dynamic = ["dependencies"]
 
 [project.optional-dependencies]
 gpu = ["cupy>=12.0"]
