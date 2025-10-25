@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://octupole.github.io/pyWC/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/citation/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/cli-tools/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/compute_wc_area/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/contributing/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/examples/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/installation/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/quickstart/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/api/backends/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
     <url>
          <loc>https://octupole.github.io/pyWC/api/willard_chandler/</loc>
-         <lastmod>2025-10-19</lastmod>
+         <lastmod>2025-10-25</lastmod>
     </url>
 </urlset>
