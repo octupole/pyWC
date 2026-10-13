@@ -78,6 +78,8 @@ BugTracker = "https://github.com/octupole/pyWC/issues"
 pywc-compare-wc-backends = "scripts.compare_cpu_gpu:main"
 pywc-wc-area = "scripts.compute_willard_chandler_area:cli"
 pywc-bending-rigidity = "scripts.compute_bending_rigidity:cli"
+pywc-wc-surface-vtk = "scripts.plot_willard_chandler_surface:cli"
+pywc-wc-surface-plot = "scripts.plot_willard_chandler_image:cli"
 
 
 [tool.setuptools]
